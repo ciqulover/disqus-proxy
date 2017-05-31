@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="disqus_thread">
+
+</div>
+<script>
+  window.disqusProxy = {
+    userName: 'ciqu',
+    defaultAvatar: '/default-avatar.png',
+    adminAvatar: '/admin-avatar.jpg',
+    identifier: '2016/09/15/canvas-moon/',
+  }
+</script>
+<script src="./public/check-diqus.js" id="a" async></script>
+<script>
+  var disqusThread = document.getElementById('disqus_thread')
+  var styleSheet = document.createElement('link')
+  styleSheet.rel = 'stylesheet'
+  styleSheet.href = '//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css'
+  document.head.appendChild(styleSheet)
+  disqusThread.innerHTML = '<div>' +
+    '<span>正在尝试加载disqus评论</span>' +
+    '<i class="fa fa-spinner fa-spin fa-fw"></i>' +
+    '</div>'
+
+  var disqus_config = function () {
+    this.page.url = window.location.href
+    this.page.identifier = window.disqusProxy.identifier
+  }
+
+  var disqusOnload = false
+
+  var s = document.createElement('script')
+  s.src = 'https://ciqu.disqus.com/embed.js'
+  s.setAttribute('data-timestamp', String(+new Date()))
+  s.onload = function () {
+    disqusOnload = true
+  }
+  setTimeout(function () {
+    if (!disqusOnload) {
+      document.removeChild(s)
+      loadDisqusProxy()
+    }
+  }, 3000)
+  document.body.appendChild(s)
+
+  function loadDisqusProxy() {
+
+  }
+</script>
+<script src=""></script>
+</body>
+</html>
