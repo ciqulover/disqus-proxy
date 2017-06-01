@@ -31,7 +31,7 @@ export default function Comment(props) {
           <span className="comment-time">
             {moment(props.comment.createdAt)
               .utcOffset(-8)
-              .format('YYYY/MM/DD HH:mm')}
+              .format('YYYY/MM/DD HH : mm')}
           </span>
         </p>
         <p className="comment-body"

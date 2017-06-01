@@ -26,7 +26,6 @@ export default class DisqusChecker extends Component {
 
     setTimeout(async () => {
       if (!this.state.disqusOnload) {
-        this.setState({showDisqusProxy: true})
         const DisqusProxy = await import('./DisqusProxy')
         this.setState({DisqusProxy: DisqusProxy.default})
         document.getElementById('disqus_thread').style.display = 'none'
@@ -41,7 +40,9 @@ export default class DisqusChecker extends Component {
         : !this.state.disqusOnload && (
           <div className="disqus-statement">
             <span>正在尝试加载
-              <a href="https://disqus.com" target="_blank"> disqus </a>
+              <a href="https://disqus.com"
+                 rel="noopener noreferrer"
+                 target="_blank"> disqus </a>
               评论系统
             </span>
             <i className="fa fa-spinner fa-spin fa-fw"/>

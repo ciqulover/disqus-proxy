@@ -77,7 +77,7 @@ app
   .use(router.routes())
   .use(router.allowedMethods())
 
-app.listen(4000)
+app.listen(config.port)
 
 logger.info('Server start at port: ' + config.port)
 

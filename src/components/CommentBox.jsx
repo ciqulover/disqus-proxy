@@ -22,7 +22,6 @@ export default class commentBox extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     const thread = nextProps.thread
     if (typeof thread === 'string') {
       const message = localStorage.getItem(thread)

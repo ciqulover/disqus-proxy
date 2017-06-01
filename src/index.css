@@ -16,4 +16,12 @@
       padding: 0; }
   @media screen and (max-width: 500px) {
     #disqus_proxy_thread .disqus-proxy ul, #disqus_proxy_thread .disqus-proxy ul.post-reply {
-      margin-left: 10px; } }
+      margin-left: 10px; }
+    #disqus_proxy_thread .disqus-proxy .disqus-statement {
+      padding-left: 80px; }
+    #disqus_proxy_thread .disqus-proxy .comment-box .comment-info .avatar img {
+      width: 40px;
+      height: 40px; }
+    #disqus_proxy_thread .disqus-proxy .comment-box .comment-info textarea {
+      left: 60px;
+      width: calc(100% - 60px); } }

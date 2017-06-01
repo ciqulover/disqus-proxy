@@ -29,6 +29,21 @@
       ul, ul.post-reply {
         margin-left: 10px;
       }
+      .disqus-statement {
+        padding-left: 80px;
+      }
+      .comment-box {
+        .comment-info {
+          .avatar img {
+            width: 40px;
+            height: 40px;
+          }
+          textarea {
+            left: 60px;
+            width: calc(100% - 60px);
+          }
+        }
+      }
     }
   }
 }

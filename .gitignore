@@ -1,15 +1,15 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+src/components/**/*.css
+disqis-proxy.log
+
+
 # dependencies
 /node_modules
 
 # testing
 /coverage
 
-src/components/**/*.css
-
-# production
-/build
 
 # misc
 .DS_Store
