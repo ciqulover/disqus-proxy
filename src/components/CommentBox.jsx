@@ -7,6 +7,7 @@ export default class commentBox extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      thread: null,
       message: '',
       authorName: '',
       authorEmail: '',
@@ -21,12 +22,27 @@ export default class commentBox extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const thread = nextProps.thread
-    if (typeof thread === 'string') {
+  async componentWillMount() {
+
+    const identifier = window.disqusProxy.identifier
+    const query = 'identifier=' + encodeURIComponent(identifier)
+    const url = '//' + window.disqusProxy.server + ':'
+      + window.disqusProxy.port.toString() + '/api/getThreads'
+    const result = await fetch(url + '?' + query)
+    const res = await result.json()
+
+    if (res.code === 0 && res.response.length) {
+      const thread = res.response[0].id
+      this.setState({thread})
       const message = localStorage.getItem(thread)
-      if (typeof message === 'string')
-        this.setState({message})
+      if (typeof message === 'string') this.setState({message})
+
+    } else if (typeof res.code === 'number') {
+      this.setState({
+        notificationTitle: 'thread 获取错误',
+        notificationBody: res.response,
+        showNotification: true
+      })
     }
   }
 
@@ -38,7 +54,7 @@ export default class commentBox extends Component {
   }
 
   async postComment() {
-    if (!this.props.thread) return
+    if (!this.state.thread) return
 
     this.setState({
       message: this.state.message.trim(),
@@ -69,15 +85,15 @@ export default class commentBox extends Component {
 
     this.setState({disabled: true})
 
-    localStorage.setItem(this.props.thread, this.state.message)
+    localStorage.setItem(this.state.thread.toString(), this.state.message)
 
     const payload = {
-      thread: this.props.thread,
+      thread: this.state.thread,
       author_name: this.state.authorName,
       author_email: this.state.authorEmail,
       message: this.state.message
     }
-    const url = 'http://' + window.disqusProxy.server + ':'
+    const url = '//' + window.disqusProxy.server + ':'
       + window.disqusProxy.port.toString() + '/api/createComment'
 
     return fetch(url, {
@@ -101,7 +117,7 @@ export default class commentBox extends Component {
     this.setState({disabled: false})
 
     if (res.code === 0) {
-      localStorage.removeItem(this.props.thread)
+      localStorage.removeItem(this.state.thread)
       this.setState({
         message: '',
         authorName: '',
@@ -124,7 +140,6 @@ export default class commentBox extends Component {
         this.setState({showNotification: false})
       }, 5000)
     }
-    console.log(res)
   }
 
   render() {

@@ -12,6 +12,7 @@
     #disqus_proxy_thread .disqus-proxy ul, #disqus_proxy_thread .disqus-proxy li {
       list-style: none; }
     #disqus_proxy_thread .disqus-proxy ul {
+      line-height: normal;
       margin-left: 56px;
       padding: 0; }
   @media screen and (max-width: 500px) {

@@ -8,7 +8,6 @@ export default class DisqusProxy extends Component {
     super(props)
     this.state = {
       comments: [],
-      thread: null,
       notificationTitle: '',
       notificationBody: '',
       showNotification: false,
@@ -19,18 +18,13 @@ export default class DisqusProxy extends Component {
 
     const identifier = window.disqusProxy.identifier
     const query = 'identifier=' + encodeURIComponent(identifier)
-    // const result = await fetch('/api/getThreads?' + query)
-    const url = 'http://' + window.disqusProxy.server + ':'
-      + window.disqusProxy.port.toString() + '/api/getThreads'
+    const url = '//' + window.disqusProxy.server + ':'
+      + window.disqusProxy.port.toString() + '/api/getComments'
     const result = await fetch(url + '?' + query)
     const res = await result.json()
 
-    if (res.code === 0) {
-      this.setState({
-        comments: res.response,
-        thread: res.response[0].thread
-      })
-    } else if (typeof res.code === 'number') {
+    if (res.code === 0) this.setState({comments: res.response})
+    else if (typeof res.code === 'number') {
       this.setState({
         notificationTitle: '评论获取错误',
         notificationBody: res.response,
@@ -47,7 +41,7 @@ export default class DisqusProxy extends Component {
           <a href="https://disqus.com"> disqus.com </a>
           时出现问题, 已为你展示精简版评论系统
         </div>
-        <CommentBox thread={this.state.thread}/>
+        <CommentBox/>
         {this.state.showNotification && (
           <Notification title={this.state.notificationTitle}
                         body={this.state.notificationBody}

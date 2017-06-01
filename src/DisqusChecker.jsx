@@ -4,7 +4,7 @@ export default class DisqusChecker extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      disqusOnload: false,
+      disqusLoaded: false,
       DisqusProxy: null,
     }
   }
@@ -12,20 +12,22 @@ export default class DisqusChecker extends Component {
   componentWillMount() {
 
     const s = document.createElement('script')
-    s.src = 'https://ciqu.disqus.com/embed.js'
+    const username = window.disqusProxy.userName
+    s.src = `https://${username}.disqus.com/embed.js`
     s.async = true
     s.setAttribute('data-timestamp', String(+new Date()))
     s.onload = () => {
-      this.setState({disqusOnload: true})
+      this.setState({disqusLoaded: true})
     }
     s.onerror = () => {
-      this.setState({disqusOnload: false})
+      this.setState({disqusLoaded: false})
+      console.log('Failed to load disqus. Load disqus-proxy instead.')
     }
 
     document.body.appendChild(s)
 
     setTimeout(async () => {
-      if (!this.state.disqusOnload) {
+      if (!this.state.disqusLoaded) {
         const DisqusProxy = await import('./DisqusProxy')
         this.setState({DisqusProxy: DisqusProxy.default})
         document.getElementById('disqus_thread').style.display = 'none'
@@ -37,7 +39,7 @@ export default class DisqusChecker extends Component {
     return (
       this.state.DisqusProxy
         ? (<this.state.DisqusProxy />)
-        : !this.state.disqusOnload && (
+        : !this.state.disqusLoaded && (
           <div className="disqus-statement">
             <span>正在尝试加载
               <a href="https://disqus.com"

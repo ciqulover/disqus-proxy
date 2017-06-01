@@ -2,7 +2,7 @@
 
 src/components/**/*.css
 disqis-proxy.log
-
+my-config.js
 
 # dependencies
 /node_modules

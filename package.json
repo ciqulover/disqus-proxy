@@ -21,7 +21,6 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
   },
-  "proxy": "http://localhost:4000",
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",

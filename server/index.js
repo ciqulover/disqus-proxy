@@ -7,16 +7,19 @@ const log4js = require('log4js')
 const logger = log4js.getLogger('disqus-proxy')
 const cors = require('kcors')
 const config = require('./config')
+// const config = require('./my-config')
 
-log4js.configure({
-  appenders: [{
-    type: 'file',
-    filename: 'diqus-proxy.log'
-  }]
-})
+if (config.log === 'file') {
+  log4js.configure({
+    appenders: [{
+      type: 'file',
+      filename: 'disqus-proxy.log'
+    }]
+  })
+}
 
 app.use(bodyParser())
-app.use(cors({origin: config.site}))
+app.use(cors())
 
 let req = {}
 const socks5 = config.socks5Proxy
@@ -37,9 +40,10 @@ router.get('/api/getThreads', async function (ctx) {
 
   try {
     result = await rq(Object.assign(req, {
-      url: 'https://disqus.com/api/3.0/threads/listPosts.json?' +
+      method: 'GET',
+      url: 'https://disqus.com/api/3.0/threads/list.json?' +
       'api_secret=' + config.api_secret +
-      '&forum=ciqu' +
+      '&forum=' + config.username +
       '&thread:ident=' + ctx.request.query.identifier,
       json: true
     }))
@@ -49,6 +53,29 @@ router.get('/api/getThreads', async function (ctx) {
     return
   }
   logger.info('Get thread successfully with response code: ' + result.code)
+  ctx.body = result
+})
+
+
+router.get('/api/getComments', async function (ctx) {
+  logger.info('Get Comments with identifier: ' + ctx.request.query.identifier)
+  let result
+
+  try {
+    result = await rq(Object.assign(req, {
+      method: 'GET',
+      url: 'https://disqus.com/api/3.0/threads/listPosts.json?' +
+      'api_secret=' + config.api_secret +
+      '&forum=' + config.username +
+      '&thread:ident=' + ctx.request.query.identifier,
+      json: true
+    }))
+  } catch (e) {
+    ctx.body = e.error
+    logger.error('Error when get comment:' + JSON.stringify(e.error))
+    return
+  }
+  logger.info('Get comments successfully with response code: ' + result.code)
   ctx.body = result
 })
 
@@ -79,7 +106,9 @@ app
 
 app.listen(config.port)
 
-logger.info('Server start at port: ' + config.port)
+console.log('Disqus proxy server start at port: ' + config.port)
 
-console.log('Disqus proxy server start at port: ' + config.port
-  + '\nSee disqus-proxy.log in current directory.')
+if (config.log === 'file') {
+  console.log('See disqus-proxy.log in current directory.')
+  logger.info('Server start at port: ' + config.port)
+}
