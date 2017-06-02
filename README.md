@@ -2,6 +2,8 @@
 
 ## 用于disqus的反向代理
 
+### [Demo](https://ycwalker.com/test-disqus-proxy/)
+
 ### 准备
 * 一台国外的VPS服务器
 
@@ -40,40 +42,43 @@ disqus_proxy:
 
 Hexo主题一般用的渲染引擎有`pug`(原`jade`)，`ejs`和`swig`等。
 
-接下来以`pug`为例，说明前端配置
+如何看hexo的渲染主题是哪一个？ 进入主题目录下的layout目录，看文件的格式就知道了。
+
+下面我会一一说明配置方法。
+
+##### 模板引擎pug(jade)
 
 进入hexo的主题目录，找到`layout`文件夹。
 
-通常来说，评论会单独写成一个文件，比如`comment.pug`
+通常来说，评论会单独写成一个文件，比如`comment.pug`,在`layout`文件夹下面或者其子目录下面。
 
 在这个`comment.pug`中，`hexo`在生成(`hexo g`)时，会对每一篇生成的文章调用这个文件进行渲染。
 
 在渲染的过程中，`hexo`会提供`page`这个全局变量，在pug文件中，你可以在生成的script中以`#{page}`调用。
 
-将`comment.pug`全部替换成如下内容：
+将`comment.pug`全部替换成如下内容(注意缩进)：
 
 ``` js
 div#disqus_thread
 div#disqus_proxy_thread
 script.
   window.disqusProxy = {
-  username: 'ciqu',
-  server: 'disqus-proxy.ycwalker.com',
-  port: 5509,
-  defaultAvatar: '/avatars/default-avatar.png',
-  adminAvatar: '/avatars/admin-avatar.jpg',
-  identifier: "#{page.path}"
-};
-window.disqus_config = function () {
-  this.page.url = "#{page.permalink}"
-  this.page.identifier = "#{page.path}"
-};
-window.onload = function () {
-  const s = document.createElement('script');
+    username: 'ciqu',
+    server: 'disqus-proxy.ycwalker.com',
+    port: 5509,
+    defaultAvatar: '/avatars/default-avatar.png',
+    adminAvatar: '/avatars/admin-avatar.jpg',
+    identifier: "#{page.path}"
+  };
+  window.disqus_config = function () {
+    this.page.url = "#{page.permalink}"
+    this.page.identifier = "#{page.path}"
+  };
+  var s = document.createElement('script');
   s.src = '/static/js/main.56688539.js';
   s.async = true;
   document.body.appendChild(s);
-};
+  
 link(rel="stylesheet" href="/static/css/main.0603c539.css")
 ```
 
@@ -96,12 +101,10 @@ window.disqus_config = function() {
 	this.page.identifier = "2017/06/01/diqus-proxy-config/"
 }
 ;
-window.onload = function() {
-	const s = document.createElement('script');
-	s.src = '/static/js/main.56688539.js';
-	s.async = true;
-	document.body.appendChild(s);
-}
+var s = document.createElement('script');
+s.src = '/static/js/main.56688539.js';
+s.async = true;
+document.body.appendChild(s);
 </script>
 <link rel="stylesheet" href="/static/css/main.0603c539.css">
 ```
@@ -117,6 +120,71 @@ window.onload = function() {
 
 
 其中`window.disqus_config`是disqus成功加载后，disqus用到的参数，分别是文章的地址和标识符。
+
+##### 模板引擎swig
+
+对于渲染引擎为`swig`的`hexo`主题，可以将类似`comment.swig`直接改成这样
+```html
+{% if true %}
+  <div id="disqus_proxy_thread"></div>
+  <div id="disqus_thread">
+  <script type="text/javascript">
+        window.disqusProxy = {
+          username: 'ciqu',
+          server: 'disqus-proxy.ycwalker.com',
+          port: 5509,
+          defaultAvatar: '/avatars/default-avatar.png',
+          adminAvatar: '/avatars/admin-avatar.jpg',
+          identifier: '{{ page.path }}'
+        };
+        window.disqus_config = function () {
+          this.page.url = '{{ page.permalink }}';
+          this.page.identifier = '{{ page.path }}';
+        };
+        var s = document.createElement('script');
+        s.src = '/static/js/main.0d0338ae.js';
+        s.async = true;
+        document.body.appendChild(s);
+    </script>
+    <link rel="stylesheet" href="/static/css/main.0603c539.css">
+{% endif %}
+```
+
+比如著名的`hexo`主题[next](https://github.com/iissnan/hexo-theme-next)就用了`swig`做模板引擎，你只要将其主题下的`next/layout/_partial`目录下的`comments.swig`内容全部替换成上面的代码就OK了。
+注意，`window.disqusProxy`和`window.disqus_config`的配置项请参阅前文`pug`部分的说明。
+
+##### 模板引擎ejs
+
+对于渲染引擎为`ejs`的`hexo`主题，可以将类似`comment.ejs`直接改成这样:
+
+```html
+  <div id="disqus_proxy_thread"></div>
+
+  <div id="disqus_thread"></div>
+  
+  <script>
+    window.disqusProxy = {
+      username: 'ciqu',
+      server: 'disqus-proxy.ycwalker.com',
+      port: 5509,
+      defaultAvatar: '/avatars/default-avatar.png',
+      adminAvatar: '/avatars/admin-avatar.jpg',
+      identifier: '<%= page.path %>'
+    };
+    window.disqus_config = function () {
+      this.page.url = '<%= page.permalink %>';
+      this.page.identifier = '<%= page.path %>';
+    };
+    var s = document.createElement('script');
+    s.src = '/static/js/main.0d0338ae.js';
+    s.async = true;
+    document.body.appendChild(s);
+  </script>
+
+  <link rel="stylesheet" href="/static/css/main.0603c539.css">
+```
+
+比如使用`ejs`为模板引擎的[fexo](https://github.com/forsigner/fexo)主题，可以直接将`fexo/layout/_partial/component/`目录下的`comments.ejs`全部改为上述文件就行了。注意，`window.disqusProxy`和`window.disqus_config`的配置项请参阅前文`pug`部分的说明。
 
 
 **划重点：** 
