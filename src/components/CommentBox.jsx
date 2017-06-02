@@ -72,7 +72,7 @@ export default class commentBox extends Component {
       })
 
       const email = this.state.authorEmail
-      if (!/^[-a-zA-Z0-9]+@[-a-zA-Z0-9]+\.[-a-zA-Z0-9]+$/.test(email)) {
+      if (!/^[-a-zA-Z0-9.]+@[-a-zA-Z0-9]+\.[-a-zA-Z0-9]+$/.test(email)) {
         valid = false
         this.setState({authorEmailValid: false})
       }

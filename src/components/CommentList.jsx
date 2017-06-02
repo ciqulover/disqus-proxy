@@ -16,7 +16,7 @@ export default class CommentList extends Component {
     const commentLists = topLevelComments.map(comment => ({
       comment,
       author: comment.author.name,
-      isPrimary: comment.author.username === window.disqusProxy.userName,
+      isPrimary: comment.author.username === window.disqusProxy.username,
       children: getChildren(+comment.id)
     }))
 
@@ -27,7 +27,7 @@ export default class CommentList extends Component {
         if (comment.parent === id) list.unshift({
           comment,
           author: comment.author.name,
-          isPrimary: comment.author.username === window.disqusProxy.userName,
+          isPrimary: comment.author.username === window.disqusProxy.username,
           children: getChildren(+comment.id)
         })
       }

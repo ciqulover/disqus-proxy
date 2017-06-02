@@ -12,7 +12,7 @@ export default class DisqusChecker extends Component {
   componentWillMount() {
 
     const s = document.createElement('script')
-    const username = window.disqusProxy.userName
+    const username = window.disqusProxy.username
     s.src = `https://${username}.disqus.com/embed.js`
     s.async = true
     s.setAttribute('data-timestamp', String(+new Date()))

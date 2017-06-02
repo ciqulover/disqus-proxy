@@ -9,14 +9,13 @@ const cors = require('kcors')
 const config = require('./config')
 // const config = require('./my-config')
 
-if (config.log === 'file') {
-  log4js.configure({
-    appenders: [{
-      type: 'file',
-      filename: 'disqus-proxy.log'
-    }]
-  })
-}
+
+if (config.log === 'file') log4js.configure({
+  appenders: [{
+    type: 'file',
+    filename: 'disqus-proxy.log'
+  }]
+})
 
 app.use(bodyParser())
 app.use(cors())
