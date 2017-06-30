@@ -15,6 +15,7 @@ Hexo 主题 [aqua](https://github.com/ciqulover/hexo-theme-aqua) 已经集成了
 
 ```yml
 # 如果disqus账号名没设置 那么disqus_proxy也不会生效
+# 这里的disqus_username 即 {yourname}.disqus.com 中的`yourname`
 disqus_username: ciqu
 
 disqus_proxy:
@@ -226,7 +227,7 @@ module.exports = {
   // 你的diqus secret key
   api_secret: 'your secret key',
 
-  // 你的disqus名称
+  // 你在disqus里设置你网站的shortname
   username:'ciqu',
 
   // 服务端socks5代理转发，便于在本地测试，生产环境通常为null
