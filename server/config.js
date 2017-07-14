@@ -2,6 +2,7 @@ module.exports = {
   // 服务端端口，需要与disqus-proxy前端设置一致
   port: 5509,
 
+  api_key: 'your api key',
   // 你的diqus secret key
   api_secret: 'your secret key',
 
