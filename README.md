@@ -26,12 +26,11 @@ disqus_proxy:
   default_avatar: /avatars/default-avatar.png
   admin_avatar: /avatars/admin-avatar.jpg
   # 脚本和css路径通常不需要更改
-  script_path: /static/js/main.0d0338ae.js
-  css_path: /static/css/main.0603c539.css
+  script_path: /static/js/disqus-proxy.js
 ```
 所以在这里，通常只需要配置三项就可以了，分别是
-
-* disqus 的用户名称
+  
+* disqus 的 shortname 
 * 你用于代理disqus的VPS服务器地址
 * 你用于代理disqus的端口
 
@@ -64,7 +63,7 @@ div#disqus_thread
 div#disqus_proxy_thread
 script.
   window.disqusProxy = {
-    username: 'ciqu',
+    shortname: 'ciqu',
     server: 'disqus-proxy.ycwalker.com',
     port: 5509,
     defaultAvatar: '/avatars/default-avatar.png',
@@ -76,11 +75,10 @@ script.
     this.page.identifier = "#{page.path}"
   };
   var s = document.createElement('script');
-  s.src = '/static/js/main.56688539.js';
+  s.src = '/static/js/disqus-proxy.js';
   s.async = true;
   document.body.appendChild(s);
   
-link(rel="stylesheet" href="/static/css/main.0603c539.css")
 ```
 
 这个文件将会渲染出这样的结果
@@ -90,7 +88,7 @@ link(rel="stylesheet" href="/static/css/main.0603c539.css")
 <div id="disqus_proxy_thread"></div>
 <script>
 window.disqusProxy = {
-	username: 'ciqu',
+	shortname: 'ciqu',
 	server: 'disqus-proxy.ycwalker.com',
 	port: 5509,
 	defaultAvatar: '/avatars/default-avatar.png',
@@ -103,22 +101,22 @@ window.disqus_config = function() {
 }
 ;
 var s = document.createElement('script');
-s.src = '/static/js/main.56688539.js';
+s.src = '/static/js/disqus-proxy.js';
 s.async = true;
 document.body.appendChild(s);
 </script>
-<link rel="stylesheet" href="/static/css/main.0603c539.css">
 ```
 
 其中`window.disqusProxy`对象是自制的评论框参数，参数说明如下：
 
 
-* `userName`是disqus账户名
+  * `shortname` 是你的website的 shortname 名称 比如在你的disqus安装代码中 有这样一句脚本：
+                s.src = 'https://test-eo9kkdlcze.disqus.com/embed.js';
+                那么你的disqus 的shortname 就是 test-eo9kkdlcze
   * `server`是你启用disqus代理的VPS的域名
   * `port`是VPS服务器启用disqus代理的端口，需要和后端设置的端口一致
   * `defaultAvatar`和`adminAvatar`分别是默认头像和管理员头像
   * `identifier`是告诉disqus该文章对应评论的标识符，一般以文章的路径做标识符。
-
 
 其中`window.disqus_config`是disqus成功加载后，disqus用到的参数，分别是文章的地址和标识符。
 
@@ -131,7 +129,7 @@ document.body.appendChild(s);
   <div id="disqus_thread">
   <script type="text/javascript">
         window.disqusProxy = {
-          username: 'ciqu',
+          shortname: 'ciqu',
           server: 'disqus-proxy.ycwalker.com',
           port: 5509,
           defaultAvatar: '/avatars/default-avatar.png',
@@ -143,11 +141,10 @@ document.body.appendChild(s);
           this.page.identifier = '{{ page.path }}';
         };
         var s = document.createElement('script');
-        s.src = '/static/js/main.0d0338ae.js';
+        s.src = '/static/js/disqus-proxy.js';
         s.async = true;
         document.body.appendChild(s);
     </script>
-    <link rel="stylesheet" href="/static/css/main.0603c539.css">
 {% endif %}
 ```
 
@@ -165,7 +162,7 @@ document.body.appendChild(s);
   
   <script>
     window.disqusProxy = {
-      username: 'ciqu',
+      shortname: 'ciqu',
       server: 'disqus-proxy.ycwalker.com',
       port: 5509,
       defaultAvatar: '/avatars/default-avatar.png',
@@ -177,12 +174,10 @@ document.body.appendChild(s);
       this.page.identifier = '<%= page.path %>';
     };
     var s = document.createElement('script');
-    s.src = '/static/js/main.0d0338ae.js';
+    s.src = '/static/js/disqus-proxy.js';
     s.async = true;
     document.body.appendChild(s);
   </script>
-
-  <link rel="stylesheet" href="/static/css/main.0603c539.css">
 ```
 
 比如使用`ejs`为模板引擎的[fexo](https://github.com/forsigner/fexo)主题，可以直接将`fexo/layout/_partial/component/`目录下的`comments.ejs`全部改为上述文件就行了。注意，`window.disqusProxy`和`window.disqus_config`的配置项请参阅前文`pug`部分的说明。
@@ -192,19 +187,13 @@ document.body.appendChild(s);
 
 下载或者克隆项目代码 [disqus-proxy](https://github.com/ciqulover/disqus-proxy)
 
-复制disqus-porxy中已经build完毕的`disqus-proxy/build`目录下的`static`文件夹和`avatars`文件夹到主题目录的source文件夹下。
-
-将`static/js/`下的以main开头js文件名替换上面代码中的`s.src = '/static/js/main.56688539.js';`文件名。
-
-将`static/css/`目录下的css文件名替换`link(rel="stylesheet" href="/static/css/main.0603c539.css")`中的文件名。
-
-PS：你会发现`static/js/`目录下有两个js文件，其中main开头的脚本用于检测网络状况以选择性加载disqus，另一个js文件为自制的评论框，在disqus不能加载时会被之前的js文件动态请求加载，所以不用管它，你只要确认它的路径在`/static/js/`下就可以了。
+复制disqus-proxy中已经build完毕的`disqus-proxy/build`目录下的`static`文件夹和`avatars`文件夹到主题目录的source文件夹下。
 
 至此，前端部分配置完成。
 
 ### 后端配置
 
-后端用了`Node.js`，由于采用了`Koa`框架和`async/await`语法，所以需要`Node.js`版本`7.6`以上，话说端午节后`Node.js`最新版本都到8了耶。
+后端使用`Node.js`，需要`Node.js`版本`7.6`以上，话说端午节后`Node.js`最新版本都到8了耶。
 
 #### 在服务器上clone代码:
 ```
@@ -222,18 +211,26 @@ yarn install --production
 ``` js
 module.exports = {
   // 服务端端口，需要与disqus-proxy前端设置一致
-  port: 5509,
-
-  // 你的diqus secret key
-  api_secret: 'your secret key',
-
-  // 你在disqus里设置你网站的shortname
-  username:'ciqu',
-
-  // 服务端socks5代理转发，便于在本地测试，生产环境通常为null
-  socks5Proxy: null,
-  // 日志输出位置,输出到文件或控制台 'file' | 'console'
-  log: 'console'
+    port: 5509,
+  
+    // 你的diqus secret key
+    api_secret: 'your secret key',
+  
+    // 你的website的 shortname 名称 比如在你的disqus安装代码中 有这样一句脚本：
+    // s.src = 'https://test-eo9kkdlcze.disqus.com/embed.js';
+    // 那么你的disqus 的shortname 就是 test-eo9kkdlcze
+    shortname: 'ciqu',
+  
+    // 服务端socks5代理转发，便于在本地测试，生产环境通常为null
+    // socks5Proxy: {
+    //   host: 'localhost',
+    //   port: 1086
+    // },
+  
+    socks5Proxy: null,
+  
+    // 日志输出位置,输出到文件或控制台 'file' | 'console'
+    log: 'console'
 }
 
 ```
@@ -252,7 +249,7 @@ node index.js
 推荐用`pm2`在生产环境启动，否则你断开ssh，node进程就终止了
 
 ```
-npm i pm2 -g
+npm install pm2 -g
 pm2 start index.js
 ```
 如果你在配置文件中选择`log`类型为`file`, 那么输出的日志文件将在默认为server目录下的`disqus-proxy.log`

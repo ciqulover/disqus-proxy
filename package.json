@@ -13,20 +13,20 @@
     "socks5-https-client": "^1.2.0"
   },
   "devDependencies": {
-    "react-scripts": "1.0.7",
     "classnames": "^2.2.5",
-    "moment": "^2.18.1",
     "node-sass-chokidar": "^0.0.2",
     "npm-run-all": "^4.0.2",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-scripts": "1.0.7"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
-    "build": "npm run build-css && react-scripts build",
+    "build": "npm run build-css && react-scripts build && npm run build:rename",
+    "build:rename": "mv ./build/static/js/*.js ./build/static/js/disqus-proxy.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

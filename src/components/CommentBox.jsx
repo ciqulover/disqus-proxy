@@ -1,7 +1,35 @@
 import React, {Component} from 'react'
 import Notification from './Notification'
-import './CommentBox.css'
-import classNames from 'classnames'
+
+const styles = {
+  button: {
+    transition: 'all 0.4s',
+    outline: 'none',
+    border: 'none',
+    color: 'white',
+    backgroundColor: '#42b983',
+    cursor: 'pointer',
+  },
+  label: {
+    boxSizing: 'border-box',
+    display: 'block',
+    width: '220px',
+    margin: '10px 0'
+  },
+  span: {
+    display: 'inline-block',
+    width: '60px',
+    fontSize: '12px'
+  },
+  input: {
+    padding: '0 10px',
+    boxSizing: 'border-box',
+    height: '22px',
+    width: '160px',
+    outline: 'none',
+    borderRadius: '4px',
+  }
+}
 
 export default class commentBox extends Component {
   constructor(props) {
@@ -143,24 +171,47 @@ export default class commentBox extends Component {
   }
 
   render() {
-
-    const metaClasses = classNames({
-      'comment-meta': true,
-      'show-comment-meta': this.state.showCommentMeta
-    })
-
-    const messageClasses = classNames({'error': !this.state.messageValid})
-    const authorNameClasses = classNames({'error': !this.state.authorNameValid})
-    const authorEmailClasses = classNames({'error': !this.state.authorEmailValid})
-
     return (
-      <div className="comment-box">
-        <div className="comment-info">
-          <div className="avatar">
-            <img src={window.disqusProxy.defaultAvatar} alt="avatar"/>
+      <div style={{
+        padding: '10px 20px',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <div style={{
+          height: '110px',
+          position: 'relative'
+        }}>
+          <div style={{
+            position: 'absolute',
+            paddingTop: '6px'
+          }}>
+            <img src={window.disqusProxy.defaultAvatar} alt="avatar" style={{
+              width: '50px',
+              height: '50px',
+              borderRadius: '50%',
+              boxShadow: '1px 1px 3px 0.5px #ccc'
+            }}/>
           </div>
           <textarea value={this.state.message}
-                    className={messageClasses}
+                    style={{
+                      position: 'absolute',
+                      top: '0',
+                      left: '70px',
+                      width: 'calc(100% - 70px)',
+                      height: '100px',
+                      boxSizing: 'border-box',
+                      fontSize: '16px',
+                      letterSpacing: '0.7px',
+                      padding: '12px',
+                      color: '#555',
+                      backgroundColor: '#f8f8f8',
+                      outline: 'none',
+                      border: this.state.messageValid ? 'none' : 'border: 1px solid #ff7500',
+                      resize: 'none',
+                      borderRadius: '8px',
+                      overflow: 'auto',
+                      boxShadow: '1px 1px 2px -1px #aaa',
+                    }}
                     disabled={this.state.disabled}
                     onChange={e => this.handleChange(e, 'message')}/>
         </div>
@@ -169,27 +220,57 @@ export default class commentBox extends Component {
                         body={this.state.notificationBody}
                         duration={4000}/>
         )}
-        <div className="comment-button" onClick={this.commentMetaToggle}>
+        <button style={{
+          ...styles.button,
+          ...{
+            fontSize: '14px',
+            marginLeft: 'calc(100% - 46px)',
+            padding: '2px 16px',
+            borderRadius: '4px'
+          }
+        }} onClick={this.commentMetaToggle}>
           <i className="fa fa-comment-o" aria-hidden="true"/>
-        </div>
-        <div className={metaClasses}>
-          <label >
-            <span><i className="fa fa-user-o" aria-hidden="true"/> 昵称 </span>
+        </button>
+        <div style={{
+          marginLeft: 'calc(100% - 220px)',
+          transition: 'all 0.5s',
+          color: '#666',
+          overflow: 'hidden',
+          height: this.state.showCommentMeta ? 120 : 0
+        }}>
+          <label style={styles.label}>
+            <span style={styles.span}><i className="fa fa-user-o" aria-hidden="true"/> 昵称 </span>
             <input type="text"
-                   className={authorNameClasses}
+                   style={{
+                     ...styles.input,
+                     border: this.state.authorNameValid ? '1px solid #ccc' : ' 1px solid #ff7500'
+                   }}
                    value={this.state.authorName}
                    disabled={this.state.disabled}
                    onChange={e => this.handleChange(e, 'authorName')}/>
           </label>
-          <label>
-            <span><i className="fa fa-envelope-o" aria-hidden="true"/> 邮箱 </span>
+          <label style={styles.label}>
+            <span style={styles.span}><i className="fa fa-envelope-o" aria-hidden="true"/> 邮箱 </span>
             <input type="text"
-                   className={authorEmailClasses}
+                   style={{
+                     ...styles.input,
+                     border: this.state.authorEmailValid ? '1px solid #ccc' : ' 1px solid #ff7500'
+                   }}
                    value={this.state.authorEmail}
                    disabled={this.state.disabled}
                    onChange={e => this.handleChange(e, 'authorEmail')}/>
           </label>
-          <button onClick={() => this.submit()}>
+          <button onClick={() => this.submit()} style={{
+            ...styles.button,
+            ...{
+              marginLeft: 'calc(100% - 46px)',
+              outline: 'none',
+              borderRadius: '4px',
+              height: '24px',
+              width: '46px',
+              border: 'none'
+            }
+          }}>
             <i className="fa fa-share" aria-hidden="true"/>
           </button>
         </div>

@@ -6,8 +6,8 @@ const bodyParser = require('koa-bodyparser')
 const log4js = require('log4js')
 const logger = log4js.getLogger('disqus-proxy')
 const cors = require('kcors')
-const config = require('./config')
-// const config = require('./my-config')
+// const config = require('./config')
+const config = require('./my-config')
 
 
 if (config.log === 'file') log4js.configure({
@@ -42,7 +42,7 @@ router.get('/api/getThreads', async function (ctx) {
       method: 'GET',
       url: 'https://disqus.com/api/3.0/threads/list.json?' +
       'api_secret=' + config.api_secret +
-      '&forum=' + config.username +
+      '&forum=' + config.shortname +
       '&thread:ident=' + ctx.request.query.identifier,
       json: true
     }))
@@ -65,7 +65,7 @@ router.get('/api/getComments', async function (ctx) {
       method: 'GET',
       url: 'https://disqus.com/api/3.0/threads/listPosts.json?' +
       'api_secret=' + config.api_secret +
-      '&forum=' + config.username +
+      '&forum=' + config.shortname +
       '&thread:ident=' + ctx.request.query.identifier,
       json: true
     }))

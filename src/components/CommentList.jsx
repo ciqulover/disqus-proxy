@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
 import Comment from './Comment'
 
-import './CommentList.css'
 export default class CommentList extends Component {
 
   render() {
-    const comments = this.props.comments
+    const {comments, isLoading} = this.props
     const topLevelComments = []
     const childComments = []
 
@@ -16,7 +15,7 @@ export default class CommentList extends Component {
     const commentLists = topLevelComments.map(comment => ({
       comment,
       author: comment.author.name,
-      isPrimary: comment.author.username === window.disqusProxy.username,
+      isPrimary: comment.author.username === window.disqusProxy.shortname,
       children: getChildren(+comment.id)
     }))
 
@@ -27,7 +26,7 @@ export default class CommentList extends Component {
         if (comment.parent === id) list.unshift({
           comment,
           author: comment.author.name,
-          isPrimary: comment.author.username === window.disqusProxy.username,
+          isPrimary: comment.author.username === window.disqusProxy.shortname,
           children: getChildren(+comment.id)
         })
       }
@@ -35,19 +34,26 @@ export default class CommentList extends Component {
     }
 
     return (
-      <div className="comment-display">
-        <ul>
-          {commentLists.map(discuss => {
-            return (
-              <li key={discuss.comment.id}>
-                <Comment comment={discuss.comment}
-                         children={discuss.children}
-                         isPrimary={discuss.isPrimary}
-                         author={discuss.author}/>
-              </li>
-            )
-          })}
-        </ul>
+      <div style={{overflowX: 'auto'}}>
+        {isLoading ?
+          (
+            <div style={{textAlign: 'center', color: '#ccc', fontSize: 18}}>
+              评论加载中 <i className="fa fa-spinner fa-spin fa-fw"/>
+            </div>
+          ) : (
+            <ul>
+              {commentLists.map(discuss => {
+                return (
+                  <li key={discuss.comment.id}>
+                    <Comment comment={discuss.comment}
+                             children={discuss.children}
+                             isPrimary={discuss.isPrimary}
+                             author={discuss.author}/>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
       </div>
     )
   }

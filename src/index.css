@@ -1,5 +1,8 @@
 #disqus_proxy_thread {
   padding-top: 30px; }
+  #disqus_proxy_thread .comment-body a {
+    color: #42b983;
+    text-decoration: none; }
   #disqus_proxy_thread .disqus-statement {
     font-size: 12px;
     padding-left: 92px;

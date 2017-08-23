@@ -1,40 +1,71 @@
 import React from 'react'
-import moment from 'moment'
-import './Comemnt.css'
+
+const styles = {
+  span: {
+    display: 'inline-block',
+    marginRight: 10,
+  }
+}
 
 export default function Comment(props) {
   return (
-    <div className="post">
-      <div className="avatar">
+    <div style={{padding: '0 10px'}}>
+      <div style={{display: 'inline-block'}}>
         <img src={
           props.isPrimary
             ? window.disqusProxy.adminAvatar
             : window.disqusProxy.defaultAvatar
         }
+             style={{
+               width: 40,
+               height: 40,
+               borderRadius: '50%',
+               boxShadow: ' 1px 1px 3px 0.5px #ccc'
+             }}
              alt="avatar"/>
       </div>
-      <div className="post-body">
+      <div style={{margin: '-60px 0 0 60px'}}>
         <p className="comment-header">
-          <span className="comment-author">
+          <span style={{...styles.span, color: '#888', fontSize: 14}}>
             {props.comment.author.name}
           </span>
           {props.isPrimary && (
-            <span className="comment-primary">
+            <span style={{
+              ...styles.span,
+              boxSizing: 'border-box',
+              lineHeight: '16px',
+              fontSize: 12,
+              backgroundColor: '#aaa',
+              color: 'white',
+              padding: '0 3px',
+              borderRadius: 4
+            }}>
               Admin
             </span>
           )}
           {props.replyTo && (
-            <span className="comment-reply-to">
-              <i className="fa fa-share" aria-hidden="true"/>
+            <span style={{...styles.span, color: '#888', fontSize: 14}}>
+              <i className="fa fa-share"
+                 style={{
+                   color: '#42b983',
+                   display: 'inline-block',
+                   marginRight: 10
+                 }}/>
               {props.replyTo}
             </span>)}
-          <span className="comment-time">
-            {moment(props.comment.createdAt)
+          <span style={{
+            ...styles.span,
+            color: '#bbb',
+            fontSize: 12,
+            fontFamily: "'calligraffittiregular', sans-serif"
+          }}>
+            {window.moment(props.comment.createdAt)
               .utcOffset(-8)
               .format('YYYY/MM/DD HH : mm')}
           </span>
         </p>
         <p className="comment-body"
+           style={{fontSize: 14, color: '#34495e'}}
            dangerouslySetInnerHTML={{__html: props.comment.message}}>
         </p>
       </div>
