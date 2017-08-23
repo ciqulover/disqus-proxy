@@ -6,16 +6,17 @@ const bodyParser = require('koa-bodyparser')
 const log4js = require('log4js')
 const logger = log4js.getLogger('disqus-proxy')
 const cors = require('kcors')
-// const config = require('./config')
-const config = require('./my-config')
+const config = require('./config')
+// const config = require('./my-config')
 
-
-if (config.log === 'file') log4js.configure({
-  appenders: [{
-    type: 'file',
-    filename: 'disqus-proxy.log'
-  }]
-})
+if (config.log === 'file') {
+  log4js.configure({
+    appenders: [{
+      type: 'file',
+      filename: 'disqus-proxy.log'
+    }]
+  })
+}
 
 app.use(bodyParser())
 app.use(cors())
@@ -29,7 +30,7 @@ if (socks5 && typeof socks5.host === 'string' && typeof socks5.port === 'number'
     agentOptions: {
       socksHost: socks5.host,
       socksPort: socks5.port
-    },
+    }
   }
 }
 
@@ -43,7 +44,9 @@ router.get('/api/getThreads', async function (ctx) {
       url: 'https://disqus.com/api/3.0/threads/list.json?' +
       'api_secret=' + config.api_secret +
       '&forum=' + config.shortname +
-      '&thread:ident=' + ctx.request.query.identifier,
+      // '&thread:ident=' + ctx.request.query.identifier,
+      // 此处如果不对identifier encode, 如果identifier中含有中文，disqus api会不识别报错
+      '&thread:ident=' + encodeURIComponent(ctx.request.query.identifier),
       json: true
     }))
   } catch (e) {
@@ -55,7 +58,6 @@ router.get('/api/getThreads', async function (ctx) {
   ctx.body = result
 })
 
-
 router.get('/api/getComments', async function (ctx) {
   logger.info('Get Comments with identifier: ' + ctx.request.query.identifier)
   let result
@@ -66,7 +68,9 @@ router.get('/api/getComments', async function (ctx) {
       url: 'https://disqus.com/api/3.0/threads/listPosts.json?' +
       'api_secret=' + config.api_secret +
       '&forum=' + config.shortname +
-      '&thread:ident=' + ctx.request.query.identifier,
+      // '&thread:ident=' + ctx.request.query.identifier,
+      // 此处如果不对identifier encode, 如果identifier中含有中文，disqus api会不识别报错
+      '&thread:ident=' + encodeURIComponent(ctx.request.query.identifier),
       json: true
     }))
   } catch (e) {
