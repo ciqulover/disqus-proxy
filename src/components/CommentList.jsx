@@ -37,11 +37,11 @@ export default class CommentList extends Component {
       <div style={{overflowX: 'auto'}}>
         {isLoading ?
           (
-            <div style={{textAlign: 'center', color: '#ccc', fontSize: 18}}>
+            <div style={{textAlign: 'center', color: '#ccc', fontSize: 14}}>
               评论加载中 <i className="fa fa-spinner fa-spin fa-fw"/>
             </div>
           ) : (
-            <ul>
+            commentLists.length ? (<ul>
               {commentLists.map(discuss => {
                 return (
                   <li key={discuss.comment.id}>
@@ -52,7 +52,10 @@ export default class CommentList extends Component {
                   </li>
                 )
               })}
-            </ul>
+            </ul>) : (
+              <div style={{textAlign: 'center', color: '#ccc', fontSize: 14}}>
+                还没有评论呢
+              </div>)
           )}
       </div>
     )

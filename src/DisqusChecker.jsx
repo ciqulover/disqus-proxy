@@ -30,7 +30,7 @@ export default class DisqusChecker extends Component {
       s.async = true
       s.setAttribute('data-timestamp', String(+new Date()))
       s.onload = () => {
-        this.setState({idLoading: false, disqusLoaded: true})
+        this.setState({isLoading: false, disqusLoaded: true})
       }
       s.onerror = () => {
         document.getElementById('disqus_thread').style.display = 'none'
