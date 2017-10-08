@@ -39,7 +39,7 @@ router.get('/api/getThreads', async function (ctx) {
   let result
 
   try {
-    result = await rq(Object.assign(req, {
+    result = await rq(Object.assign({}, req, {
       method: 'GET',
       url: 'https://disqus.com/api/3.0/threads/list.json?' +
       'api_secret=' + config.api_secret +
@@ -63,7 +63,7 @@ router.get('/api/getComments', async function (ctx) {
   let result
 
   try {
-    result = await rq(Object.assign(req, {
+    result = await rq(Object.assign({}, req, {
       method: 'GET',
       url: 'https://disqus.com/api/3.0/threads/listPosts.json?' +
       'api_secret=' + config.api_secret +
@@ -86,7 +86,7 @@ router.post('/api/createComment', async function (ctx) {
   logger.info('Create comment: ' + JSON.stringify(ctx.request.body))
   let result
   try {
-    result = await rq(Object.assign(req, {
+    result = await rq(Object.assign({}, req, {
       url: 'https://disqus.com/api/3.0/posts/create.json',
       method: 'POST',
       form: Object.assign(ctx.request.body, {
