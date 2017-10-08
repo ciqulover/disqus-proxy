@@ -34,14 +34,14 @@ hexo.extend.filter.register('template_locals', function (locals) {
     const config = hexo.config.disqus_proxy
 
     const script = `
-      <script src="/scripts/hexo-disqus-proxy.js"></script>
+      <script src="/scripts/hexo-disqus-proxy.js?timestamp=${Date.now()}" async></script>
       <script>
         window.disqusProxy={
           shortname: '${config.shortname}',
           server: '${config.host}',
           port: ${config.port},
-          defaultAvatar: '${config.default_avatar}',
-          adminAvatar: '${config.admin_avatar}',
+          defaultAvatar: '${config.default_avatar ? config.default_avatar : "/avatars/default-avatar.png"}',
+          adminAvatar: '${config.admin_avatar ? config.admin_avatar : "/avatars/admin-avatar.jpg"}',
           identifier: '${locals.path}',
         };
         window.disqus_config = function () {

@@ -13,8 +13,8 @@ export default function Comment(props) {
       <div style={{display: 'inline-block'}}>
         <img src={
           props.isPrimary
-            ? (window.disqusProxy.adminAvatar || '/avatars/admin-avatar.jpg')
-            : (window.disqusProxy.defaultAvatar || '/avatars/default-avatar.png')
+            ? window.disqusProxy.adminAvatar
+            : window.disqusProxy.defaultAvatar
         }
              style={{
                width: 40,
