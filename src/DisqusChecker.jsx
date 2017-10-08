@@ -13,7 +13,7 @@ export default class DisqusChecker extends Component {
   async componentWillMount() {
 
     try {
-      const thread = fetch('https://disqus.com/next/config.json')
+      const thread = fetch(`https://disqus.com/next/config.json?timestamp=${Date.now()}`)
 
       const limit = new Promise(resolve => setTimeout(() => resolve({status: 600}), 2000))
 
@@ -26,7 +26,7 @@ export default class DisqusChecker extends Component {
 
       const s = document.createElement('script')
       const shortname = window.disqusProxy.shortname
-      s.src = `https://${shortname}.disqus.com/embed.js`
+      s.src = `https://${shortname}.disqus.com/embed.js?timestamp=${Date.now()}`
       s.async = true
       s.setAttribute('data-timestamp', String(+new Date()))
       s.onload = () => {

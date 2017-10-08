@@ -16,6 +16,8 @@ export default class DisqusProxy extends Component {
   }
 
   async componentWillMount() {
+
+    // 用文字标识符获取评论
     const identifier = window.disqusProxy.identifier
     const query = 'identifier=' + encodeURIComponent(identifier)
     const url = '//' + window.disqusProxy.server + ':'
@@ -25,13 +27,12 @@ export default class DisqusProxy extends Component {
       const res = await result.json()
       this.setState({isFetchingComment: false})
       if (res.code === 0) this.setState({comments: res.response})
-      else {
-        this.setState({
-          notificationTitle: '评论获取错误',
-          notificationBody: res.response,
-          showNotification: true
-        })
-      }
+      // 错误码 2 是找不到文章的thread，一般为未有评论，故此处忽略之
+      else if (res.code !== 2) this.setState({
+        notificationTitle: '评论获取错误',
+        notificationBody: res.response,
+        showNotification: true
+      })
     } catch (e) {
       this.setState({
         isFetchingComment: false,

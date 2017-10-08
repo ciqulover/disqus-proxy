@@ -1,7 +1,6 @@
 {
   "name": "disqus-proxy",
-  "version": "0.1.0",
-  "private": false,
+  "version": "0.1.1",
   "dependencies": {
     "kcors": "2",
     "koa": "^2.2.0",
