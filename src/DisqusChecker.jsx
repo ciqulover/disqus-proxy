@@ -26,7 +26,7 @@ export default class DisqusChecker extends Component {
 
       const s = document.createElement('script')
       const shortname = window.disqusProxy.shortname
-      s.src = `https://${shortname}.disqus.com/embed.js?timestamp=${Date.now()}`
+      s.src = `https://${shortname}.disqus.com/embed.js`
       s.async = true
       s.setAttribute('data-timestamp', String(+new Date()))
       s.onload = () => {

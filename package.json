@@ -1,7 +1,9 @@
 {
-  "name": "disqus-proxy",
-  "version": "0.1.1",
+  "name": "hexo-disqus-proxy",
+  "version": "0.2.0",
+  "main": "index",
   "dependencies": {
+    "hexo-fs": "^0.2.2",
     "kcors": "2",
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
@@ -12,22 +14,24 @@
     "socks5-https-client": "^1.2.0"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "classnames": "^2.2.5",
-    "node-sass-chokidar": "^0.0.2",
-    "npm-run-all": "^4.0.2",
+    "copy-webpack-plugin": "^4.1.1",
+    "css-loader": "^0.28.7",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-scripts": "1.0.7"
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1",
+    "webpack-merge": "^4.1.0"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start-js": "react-scripts start",
-    "start": "npm-run-all -p watch-css start-js",
-    "build": "npm run build-css && react-scripts build && npm run build:rename",
-    "build:rename": "mv ./build/static/js/*.js ./build/static/js/disqus-proxy.js",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "build": "webpack",
+    "server": "node server/index.js",
+    "pm2server": "pm2 server/index.js"
   },
   "license": "MIT"
 }

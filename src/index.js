@@ -2,7 +2,21 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import DisqusChecker from './DisqusChecker'
 
-ReactDOM.render(<DisqusChecker/>, document.getElementById('disqus_proxy_thread'))
+let disqusProxy = document.getElementById('disqus_proxy_thread')
+let disqus = document.getElementById('disqus-thread')
+if (!disqusProxy) {
+  disqusProxy = document.createElement('div')
+  disqusProxy.id = 'disqus_proxy_thread'
+  document.body.appendChild(disqusProxy)
+}
+
+if (!disqus) {
+  disqus = document.createElement('div')
+  disqus.id = 'disqus_thread'
+  disqusProxy.parentNode.appendChild(disqus)
+}
+
+ReactDOM.render(<DisqusChecker/>, disqusProxy)
 
 const styleSheet = document.createElement('link')
 styleSheet.rel = 'stylesheet'
