@@ -2,12 +2,7 @@
 const fs = require('hexo-fs')
 
 hexo.extend.filter.register('after_render:html', function (str) {
-  const identifier = '</body>'
-  if (str.indexOf(identifier) !== -1) {
-    const script = `<script src="/scripts/hexo-disqus-proxy.js"></script>`
-    str = str.replace(identifier, script + identifier)
-    str = str.replace(/ +id *= *["']disqus_thread["']/, ' id="disqus_proxy_thread"')
-  }
+  str = str.replace(/ +id *= *["']disqus_thread["']/, ' id="disqus_proxy_thread"')
   return str
 })
 
@@ -37,7 +32,9 @@ hexo.extend.generator.register('assets', function (locals) {
 hexo.extend.filter.register('template_locals', function (locals) {
   if (!locals.archive && locals.page.source) {
     const config = hexo.config.disqus_proxy
+
     const script = `
+      <script src="/scripts/hexo-disqus-proxy.js"></script>
       <script>
         window.disqusProxy={
           shortname: '${config.shortname}',
@@ -52,6 +49,7 @@ hexo.extend.filter.register('template_locals', function (locals) {
           this.page.identifier = window.disqusProxy.identifier;
         };
       </script>`
+
     locals.page.content = locals.page.content + script
   }
   return locals
