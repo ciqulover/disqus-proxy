@@ -2,6 +2,9 @@
 [![npm package](https://img.shields.io/npm/v/hexo-disqus-proxy.svg?style=flat)](https://www.npmjs.org/package/hexo-disqus-proxy)
 ![](https://img.shields.io/badge/node-%3E7.6-brightgreen.svg)
 
+[![NPM](https://nodei.co/npm/hexo-disqus-proxy.png)](https://nodei.co/npm/hexo-disqus-proxy/)
+
+
 ### [Demo](https://ycwalker.com/test-disqus-proxy/)
 
 ### 准备
