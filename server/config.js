@@ -1,4 +1,4 @@
-module.exports = {
+config = {
   // 服务端端口，需要与disqus-proxy前端设置一致
   port: 5509,
 
@@ -21,3 +21,28 @@ module.exports = {
   // 日志输出位置,输出到文件或控制台 'file' | 'console'
   log: 'console'
 }
+
+module.exports = (() => {
+
+  if (process.env.DISQUS_PORT != undefined) {
+    config.port = process.env.DISQUS_PORT;
+  }
+
+  if (process.env.DISQUS_API_SECRECT != undefined) {
+    config.api_secret = process.env.DISQUS_api_serect;
+  }
+
+  if (process.env.DISQUS_SHORT_NAME != undefined) {
+    config.shortname = process.env.DISQUS_SHORT_NAME;
+  }
+
+  if (process.env.DISQUS_LOG != undefined) {
+    config.log = process.env.DISQUS_LOG;
+  }
+
+  return config
+})()
+
+
+
+
