@@ -2,18 +2,31 @@
 const fs = require('hexo-fs')
 
 hexo.extend.filter.register('after_render:html', function (str) {
+  const cdn = `
+  <script src="//cdn.bootcss.com/react/16.0.0/umd/react.production.min.js"}></script>
+  <script src="//cdn.bootcss.com/react-dom/16.0.0/umd/react-dom.production.min.js"}></script>
+  `
+  str = str.replace(/<body>/, '<body>' + cdn)
   str = str.replace(/ +id *= *["']disqus_thread["']/, ' id="disqus_proxy_thread"')
   return str
 })
 
 hexo.extend.generator.register('assets', function (locals) {
   const config = hexo.config.disqus_proxy
-  const asset = [{
-    path: 'scripts/hexo-disqus-proxy.js',
-    data: function () {
-      return fs.createReadStream('node_modules/hexo-disqus-proxy/lib/hexo-disqus-proxy.js')
+  const asset = [
+    {
+      path: 'scripts/hexo-disqus-proxy-primary.js',
+      data: function () {
+        return fs.createReadStream('node_modules/hexo-disqus-proxy/lib/hexo-disqus-proxy-primary.js')
+      }
+    },
+    {
+      path: 'scripts/disqus-proxy.chunk.0.js',
+      data: function () {
+        return fs.createReadStream('node_modules/hexo-disqus-proxy/lib/disqus-proxy.chunk.0.js')
+      }
     }
-  }]
+  ]
   if (!config.admin_avatar) asset.push({
     path: 'avatars/admin-avatar.jpg',
     data: function () {
@@ -30,11 +43,22 @@ hexo.extend.generator.register('assets', function (locals) {
 })
 
 hexo.extend.filter.register('template_locals', function (locals) {
-  if (!locals.archive && locals.page.source) {
+
+  if (!locals.page) return locals
+  const layout = locals.page.layout
+  if (
+    !locals.archive
+    && locals.page.source
+    && layout !== 'index'
+    && layout !== 'tag'
+    && layout !== 'categroy'
+    && layout !== 'tag'
+    && layout !== 'archive'
+  ) {
     const config = hexo.config.disqus_proxy
 
     const script = `
-      <script src="/scripts/hexo-disqus-proxy.js?timestamp=${Date.now()}" async></script>
+      <script src="/scripts/hexo-disqus-proxy-primary.js" async></script>
       <script>
         window.disqusProxy={
           shortname: '${config.shortname}',

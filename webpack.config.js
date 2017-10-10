@@ -6,8 +6,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 module.exports = {
   entry: './src/index',
   output: {
-    filename: 'hexo-disqus-proxy.js',
     path: resolve('./lib'),
+    filename: 'hexo-disqus-proxy-primary.js',
+    chunkFilename: "[name].chunk.[id].js",
+    publicPath: "/scripts/"
   },
   module: {
     rules: [
@@ -22,6 +24,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json']
+  },
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM'
   },
   plugins: [
     new CopyWebpackPlugin([
