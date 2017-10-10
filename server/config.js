@@ -29,7 +29,7 @@ module.exports = (() => {
   }
 
   if (process.env.DISQUS_API_SECRECT != undefined) {
-    config.api_secret = process.env.DISQUS_api_serect;
+    config.api_secret = process.env.DISQUS_API_SECRECT;
   }
 
   if (process.env.DISQUS_SHORT_NAME != undefined) {
