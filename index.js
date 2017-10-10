@@ -42,7 +42,7 @@ hexo.extend.filter.register('template_locals', function (locals) {
           port: ${config.port},
           defaultAvatar: '${config.default_avatar ? config.default_avatar : "/avatars/default-avatar.png"}',
           adminAvatar: '${config.admin_avatar ? config.admin_avatar : "/avatars/admin-avatar.jpg"}',
-          identifier: '${locals.path}',
+          identifier: '${locals.page.path}',
         };
         window.disqus_config = function () {
           this.page.url = window.location.href;
