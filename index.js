@@ -2,16 +2,32 @@
 const fs = require('hexo-fs')
 
 hexo.extend.filter.register('after_render:html', function (str) {
-  const cdn = `
-  <script src="//cdn.bootcss.com/react/16.0.0/umd/react.production.min.js"}></script>
-  <script src="//cdn.bootcss.com/react-dom/16.0.0/umd/react-dom.production.min.js"}></script>
-  `
-  const match = / +id *= *["']disqus_thread["']/.test(str)
-  if (match) {
-    str = str.replace(match, ' id="disqus_proxy_thread"')
+
+  const idReg = /<div +id *= *["']disqus_thread["'] *>/
+  const srcReg = /s.src *= *['"]https:\/\/.+\.disqus\.com\/embed\.js['"];?/
+  const insertReg = /\(d\.head *\|\| *d\.body\)\.appendChild\(s\);?/
+
+  if (idReg.test(str) && srcReg.test(str) && insertReg.test(str)) {
+    // 将disqus_thread转化为disqus_proxy_thread
+    str = str.replace(idReg, '<div id="disqus_proxy_thread">')
+
+    // 插入CND和外部资源
+    const cdn = `
+      <script src="//cdn.bootcss.com/react/16.0.0/umd/react.production.min.js"></script>
+      <script src="//cdn.bootcss.com/react-dom/16.0.0/umd/react-dom.production.min.js"></script>
+      <script src="//cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
+      <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+      <link rel="stylesheet" href="/styles/hexo-disqus-proxy.css"/>
+      `
     str = str.replace(/<head>/, '<head>' + cdn)
+
+    // hexo-disqus-proxy-primary主脚本
     const script = `<script src="/scripts/hexo-disqus-proxy-primary.js" async></script>`
     str = str.replace(/<\/body>/, script + '</body>')
+
+    // 删除原有的disqus评论脚本
+    str = str.replace(srcReg, '')
+    str = str.replace(insertReg, '')
   }
 
   return str
@@ -30,6 +46,12 @@ hexo.extend.generator.register('assets', function (locals) {
       path: 'scripts/disqus-proxy.chunk.0.js',
       data: function () {
         return fs.createReadStream('node_modules/hexo-disqus-proxy/lib/disqus-proxy.chunk.0.js')
+      }
+    },
+    {
+      path: 'styles/hexo-disqus-proxy.css',
+      data: function () {
+        return fs.createReadStream('node_modules/hexo-disqus-proxy/lib/styles/hexo-disqus-proxy.css')
       }
     }
   ]

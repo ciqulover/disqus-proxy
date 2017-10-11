@@ -31,7 +31,8 @@ module.exports = {
   },
   plugins: [
     new CopyWebpackPlugin([
-      {from: './src/avatars', to: resolve('./lib/avatars')}
+      {from: './src/avatars', to: resolve('./lib/avatars')},
+      {from: './src/styles', to: resolve('./lib/styles')},
     ])
   ]
 }
