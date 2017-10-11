@@ -6,8 +6,14 @@ hexo.extend.filter.register('after_render:html', function (str) {
   <script src="//cdn.bootcss.com/react/16.0.0/umd/react.production.min.js"}></script>
   <script src="//cdn.bootcss.com/react-dom/16.0.0/umd/react-dom.production.min.js"}></script>
   `
-  str = str.replace(/<body>/, '<body>' + cdn)
-  str = str.replace(/ +id *= *["']disqus_thread["']/, ' id="disqus_proxy_thread"')
+  const match = / +id *= *["']disqus_thread["']/.test(str)
+  if (match) {
+    str = str.replace(match, ' id="disqus_proxy_thread"')
+    str = str.replace(/<head>/, '<head>' + cdn)
+    const script = `<script src="/scripts/hexo-disqus-proxy-primary.js" async></script>`
+    str = str.replace(/<\/body>/, script + '</body>')
+  }
+
   return str
 })
 
@@ -45,20 +51,10 @@ hexo.extend.generator.register('assets', function (locals) {
 hexo.extend.filter.register('template_locals', function (locals) {
 
   if (!locals.page) return locals
-  const layout = locals.page.layout
-  if (
-    !locals.archive
-    && locals.page.source
-    && layout !== 'index'
-    && layout !== 'tag'
-    && layout !== 'categroy'
-    && layout !== 'tag'
-    && layout !== 'archive'
-  ) {
-    const config = hexo.config.disqus_proxy
 
-    const script = `
-      <script src="/scripts/hexo-disqus-proxy-primary.js" async></script>
+  const config = hexo.config.disqus_proxy
+
+  const script = `
       <script>
         window.disqusProxy={
           shortname: '${config.shortname}',
@@ -73,8 +69,7 @@ hexo.extend.filter.register('template_locals', function (locals) {
           this.page.identifier = window.disqusProxy.identifier;
         };
       </script>`
+  locals.page.content = locals.page.content + script
 
-    locals.page.content = locals.page.content + script
-  }
   return locals
 })
