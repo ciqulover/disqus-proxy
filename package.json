@@ -2,6 +2,9 @@
   "name": "hexo-disqus-proxy",
   "version": "1.0.13",
   "main": "index",
+  "engines": {
+    "node": "8.0.0"
+  },
   "dependencies": {
     "hexo-fs": "^0.2.2",
     "kcors": "2",
