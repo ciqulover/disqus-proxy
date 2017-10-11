@@ -7,7 +7,7 @@ hexo.extend.filter.register('after_render:html', function (str) {
   const srcReg = /s.src *= *['"]https:\/\/.+\.disqus\.com\/embed\.js['"];?/
   const insertReg = /\(d\.head *\|\| *d\.body\)\.appendChild\(s\);?/
 
-  if (idReg.test(str) && srcReg.test(str) && insertReg.test(str)) {
+  if (idReg.test(str)) {
     // 将disqus_thread转化为disqus_proxy_thread
     str = str.replace(idReg, '<div id="disqus_proxy_thread">')
 
