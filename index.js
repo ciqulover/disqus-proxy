@@ -24,7 +24,8 @@ hexo.extend.filter.register('after_render:html', function (str) {
 
     // hexo-disqus-proxy-primary主脚本
     const script = `<script src="/scripts/hexo-disqus-proxy-primary.js" async></script>`
-    str = str.replace(/<\/body>/, script + '</body>')
+    const n = str.lastIndexOf('</body>')
+    str = str.substring(0, n) + str.substring(n).replace('</body>', script + '</body>')
 
     // 删除原有的disqus评论脚本
     str = str.replace(srcReg, '')

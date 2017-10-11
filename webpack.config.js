@@ -2,6 +2,7 @@ const path = require('path')
 const resolve = p => path.resolve(__dirname, p)
 
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
   entry: './src/index',
@@ -33,6 +34,7 @@ module.exports = {
     new CopyWebpackPlugin([
       {from: './src/avatars', to: resolve('./lib/avatars')},
       {from: './src/styles', to: resolve('./lib/styles')},
-    ])
+    ]),
+    new UglifyJSPlugin()
   ]
 }
