@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import DisqusProxy from './DisqusProxy'
 
 export default class DisqusChecker extends Component {
   constructor(props) {
@@ -6,14 +7,7 @@ export default class DisqusChecker extends Component {
     this.state = {
       disqusLoaded: false,
       isLoading: true,
-      DisqusProxy: null
     }
-  }
-
-  loadDisuqsProxy = async () => {
-    if (this.state.DisqusProxy) return
-    const DisqusProxy = (await import(/* webpackChunkName: "disqus-proxy"*/ './DisqusProxy')).default
-    this.setState({DisqusProxy: DisqusProxy})
   }
 
   async componentWillMount() {
@@ -29,7 +23,6 @@ export default class DisqusChecker extends Component {
       if (res.status !== 200) {
         console.warn('pre-test loading failed, load disqus-proxy instead')
         this.setState({isLoading: false})
-        return await this.loadDisuqsProxy()
       }
 
       const s = document.createElement('script')
@@ -41,18 +34,16 @@ export default class DisqusChecker extends Component {
         if (!this.state.isLoading) return
         this.setState({isLoading: false, disqusLoaded: true})
       }
-      s.onerror = async () => {
+      s.onerror = () => {
         document.getElementById('disqus_thread').style.display = 'none'
         this.setState({isLoading: false})
         console.warn('Failed to load disqus. Load disqus-proxy instead.')
-        await this.loadDisuqsProxy()
       }
       // 3秒内没加载embed.js 则认为还是无法访问disqus
-      setTimeout(async () => {
+      setTimeout(() => {
         if (!this.state.disqusLoaded) {
           this.setState({isLoading: false})
           document.getElementById('disqus_thread').style.display = 'none'
-          await this.loadDisuqsProxy()
         }
       }, 3000)
 
@@ -61,12 +52,11 @@ export default class DisqusChecker extends Component {
       console.warn(e)
       this.setState({isLoading: false})
       document.getElementById('disqus_thread').style.display = 'none'
-      await this.loadDisuqsProxy()
     }
   }
 
   render() {
-    const {disqusLoaded, isLoading, DisqusProxy} = this.state
+    const {disqusLoaded, isLoading} = this.state
     return (
       isLoading ? (
         <div className="disqus-statement">
@@ -78,7 +68,7 @@ export default class DisqusChecker extends Component {
             </span>
           <i className="fa fa-spinner fa-spin fa-fw"/>
         </div>
-      ) : !disqusLoaded && DisqusProxy && <DisqusProxy/>
+      ) : !disqusLoaded && <DisqusProxy/>
     )
   }
 }

@@ -37,7 +37,7 @@ export default class DisqusProxy extends Component {
       this.setState({
         isFetchingComment: false,
         notificationTitle: '评论获取错误',
-        notificationBody: e,
+        notificationBody: e.message,
         showNotification: true
       })
     }
