@@ -13,7 +13,7 @@ export default class DisqusChecker extends Component {
   async componentWillMount() {
 
     try {
-      const thread = fetch(`https://disqus.com/next/config.json?timestamp=${Date.now()}`)
+      const thread = fetch(`https://disqus.com/next/config.json?timestamp=${+new Date()}`)
 
       const limit = new Promise(resolve => setTimeout(() => resolve({status: 600}), 2000))
 
