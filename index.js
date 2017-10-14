@@ -15,6 +15,7 @@ hexo.extend.filter.register('after_render:html', function (str) {
       <script src="//cdn.bootcss.com/react-dom/16.0.0/umd/react-dom.production.min.js"></script>
       <script src="//cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
       <script src="//cdn.bootcss.com/es6-promise/4.1.1/es6-promise.auto.min.js"></script>
+      <script src="//cdn.bootcss.com/fetch/2.0.3/fetch.min.js"></script>
       <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
       <link rel="stylesheet" href="/styles/hexo-disqus-proxy.css"/>
       `
