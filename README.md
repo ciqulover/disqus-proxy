@@ -32,8 +32,8 @@ disqus_proxy:
 ```
 其中：
 * `shortname` 是你的website的 shortname 名称 比如在你的disqus安装代码中 有这样一句脚本：
-              s.src = 'https://test-eo9kkdlcze.disqus.com/embed.js';
-              那么你的disqus 的shortname 就是 test-eo9kkdlcze
+         s.src = 'https://test-eo9kkdlcze.disqus.com/embed.js';
+         那么你的disqus 的shortname 就是 test-eo9kkdlcze
 * `host`是你启用disqus代理的VPS的域名
 * `port`是VPS服务器启用disqus代理的端口，需要与之后设置的后端一致
 * `default_avatar`和`admin_avatar`分别是默认头像和管理员头像的路径。例如在`source`目录下建立`avatars`目录，放入两个头像，在这里设置成绝对路径。如果不设置，则为默认头像。
@@ -56,6 +56,53 @@ disqus_proxy:
 关于博文页面的模板中的合适的位置就行了。
 
 ### 后端配置
+
+
+
+#### 获取`api-secret`
+
+在使用本插件之前需要在 Disqus 申请开启 api 权限。访问[register new application](https://disqus.com/api/applications/register/) 就可以注册一个 application.然后在[applications](https://disqus.com/api/applications/)可以看到你的 application 列表。其中 Secret Key 就是我们需要的api-secret,并且需要在后台的Settings => Community里开启访客评论
+
+
+
+## docker
+
+在安装了docker 的机器上，可以很方便得配置后端。
+
+只需要把 port,your_serect,your_short_name替换成自己的secret 和short_name。
+
+其中port是外部访问的端口。
+
+````shell
+docker run -d --name disqus-proxy -p 5509:port \
+-e DISQUS_API_SECRECT=your_serect \
+-e DISQUS_SHORT_NAME=your_short_name \
+ycwalker/hexo-disqus-proxy:1.0.6 
+````
+
+
+
+如果需要https访问，我们可以用nginx来反向代理disqus proxy.
+
+```nginx
+server {
+    listen 443 ssl;
+    server_name disqus.domain.com;
+    ssl_certificate /etc/ssl/startssl/1_disqus.domain.com_bundle.crt;
+    ssl_certificate_key /etc/ssl/startssl/2_disqus.domain.com.key;
+    
+    location / {
+        proxy_set_header  X-Real-IP  $remote_addr;
+        proxy_pass http://host:port$request_uri;
+    }
+}
+```
+
+
+
+## 非docker
+
+
 
 后端使用`Node.js`，需要`Node.js`版本`7.6`以上。
 
@@ -98,10 +145,7 @@ module.exports = {
 }
 
 ```
-#### 获取`api-secret`
-`api-secret`需要你在[disqus](https://disqus.com/)的官方网站上开启API权限，申请成功后会得到这个秘钥。
 
-并且需要在后台的Settings => Community里开启访客评论
 
 #### 启动
 ```
