@@ -25,6 +25,7 @@ npm install hexo-disqus-proxy --save
 ```
 disqus_proxy:
   shortname: ciqu
+  username: ciqu
   host: disqus-proxy.ycwalker.com
   port: 443
   admin_avatar: /avatars/admin-avatar.jpg
@@ -34,6 +35,7 @@ disqus_proxy:
 * `shortname` 是你的website的 shortname 名称 比如在你的disqus安装代码中 有这样一句脚本：
          s.src = 'https://test-eo9kkdlcze.disqus.com/embed.js';
          那么你的disqus 的shortname 就是 test-eo9kkdlcze
+* `username` 是你的disqus用户名，即评论时候留下的名字，用来区别disqus-proxy的评论头像显示
 * `host`是你启用disqus代理的VPS的域名
 * `port`是VPS服务器启用disqus代理的端口，需要与之后设置的后端一致
 * `default_avatar`和`admin_avatar`分别是默认头像和管理员头像的路径。例如在`source`目录下建立`avatars`目录，放入两个头像，在这里设置成绝对路径。如果不设置，则为默认头像。

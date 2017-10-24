@@ -1,6 +1,6 @@
 {
   "name": "hexo-disqus-proxy",
-  "version": "1.0.19",
+  "version": "1.1.0",
   "main": "index",
   "dependencies": {
     "hexo-fs": "^0.2.2",
