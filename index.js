@@ -17,7 +17,6 @@ hexo.extend.filter.register('after_render:html', function (str) {
       <script src="//cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
       <script src="//cdn.bootcss.com/fetch/2.0.3/fetch.min.js"></script>
       <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-      <link rel="stylesheet" href="/styles/hexo-disqus-proxy.css"/>
       `
     // hexo-disqus-proxy-primary主脚本
     const script = `<script src="/scripts/hexo-disqus-proxy-primary.js" async></script>`
@@ -40,12 +39,6 @@ hexo.extend.generator.register('assets', function (locals) {
       path: 'scripts/hexo-disqus-proxy-primary.js',
       data: function () {
         return fs.createReadStream('node_modules/hexo-disqus-proxy/lib/hexo-disqus-proxy-primary.js')
-      }
-    },
-    {
-      path: 'styles/hexo-disqus-proxy.css',
-      data: function () {
-        return fs.createReadStream('node_modules/hexo-disqus-proxy/lib/styles/hexo-disqus-proxy.css')
       }
     }
   ]
