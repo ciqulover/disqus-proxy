@@ -7,6 +7,24 @@ const styles = {
   }
 }
 
+const getAvatar = (author) => {
+  if (author.avatar.cache.indexOf('noavatar') === -1) {
+    return author.avatar.cache;
+  } const getColor = (key) => {
+    let hash = 0;
+    for (var i = 0; i < key.length; i++) {
+      hash += key.charCodeAt(i);
+    }
+    return `rgb(${hash % 255}, ${hash % 245}, ${hash % 235})`;
+  };
+  return blockies.create({
+    seed: author.name,
+    color: getColor(author.name + 'color'),
+    bgcolor: getColor(author.name + 'bgcolor'),
+    spotcolor: getColor(author.name + 'spotcolor')
+  }).toDataURL()
+}
+
 export default function Comment(props) {
   return (
     <div style={{padding: '0 10px'}}>
@@ -14,7 +32,7 @@ export default function Comment(props) {
         <img src={
           props.isPrimary
             ? window.disqusProxy.adminAvatar
-            : window.disqusProxy.defaultAvatar
+            : getAvatar(props.comment.author)
         }
              style={{
                width: 40,

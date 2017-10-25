@@ -185,7 +185,12 @@ export default class commentBox extends Component {
             position: 'absolute',
             paddingTop: '6px'
           }}>
-            <img src={window.disqusProxy.defaultAvatar} alt="avatar" style={{
+            <img src={blockies.create({
+              seed: 'newuser',
+              color: 'yellow',
+              bgcolor: 'green',
+              spotcolor: 'red'
+            }).toDataURL()} alt="avatar" style={{
               width: '50px',
               height: '50px',
               borderRadius: '50%',
