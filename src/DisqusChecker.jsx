@@ -64,9 +64,8 @@ export default class DisqusChecker extends Component {
               <a href="https://disqus.com"
                  rel="noopener noreferrer"
                  target="_blank"> disqus </a>
-              评论系统
+              评论系统……
             </span>
-          <i className="fa fa-spinner fa-spin fa-fw"/>
         </div>
       ) : !disqusLoaded && <DisqusProxy/>
     )

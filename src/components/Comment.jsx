@@ -33,7 +33,7 @@ export default function Comment(props) {
         <img src={
           props.isPrimary
             ? window.disqusProxy.adminAvatar
-            : getRandomAvatar(props.comment.author.name)
+            : getRandomAvatar(props.comment.author)
         }
           style={{
             width: 40,
@@ -64,12 +64,7 @@ export default function Comment(props) {
           )}
           {props.replyTo && (
             <span style={{ ...styles.span, color: '#888', fontSize: 14 }}>
-              <i className="fa fa-share"
-                style={{
-                  color: '#42b983',
-                  display: 'inline-block',
-                  marginRight: 10
-                }} />
+              发布
               {props.replyTo}
             </span>)}
           <span style={{
@@ -78,9 +73,7 @@ export default function Comment(props) {
             fontSize: 12,
             fontFamily: "'calligraffittiregular', sans-serif"
           }}>
-            {window.moment(props.comment.createdAt)
-              .utcOffset(-8)
-              .format('YYYY/MM/DD HH : mm')}
+            {new Date(props.comment.createdAt).toLocaleString()}
           </span>
         </p>
         <p className="comment-body"

@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Comment from './Comment'
 
 export default class CommentList extends Component {
 
   render() {
-    const {comments, isLoading} = this.props
+    const { comments, isLoading } = this.props
     const topLevelComments = []
     const childComments = []
 
@@ -15,7 +15,7 @@ export default class CommentList extends Component {
     const commentLists = topLevelComments.map(comment => ({
       comment,
       author: comment.author.name,
-      isPrimary: comment.author.username === window.disqusProxy.shortname,
+      isPrimary: comment.author.username === window.disqusProxy.username || (comment.author.name.indexOf(window.disqusProxy.username) !== -1),
       children: getChildren(+comment.id)
     }))
 
@@ -26,7 +26,7 @@ export default class CommentList extends Component {
         if (comment.parent === id) list.unshift({
           comment,
           author: comment.author.name,
-          isPrimary: comment.author.username === window.disqusProxy.shortname,
+          isPrimary: comment.author.username === window.disqusProxy.username || (comment.author.name.indexOf(window.disqusProxy.username) !== -1),
           children: getChildren(+comment.id)
         })
       }
@@ -34,11 +34,11 @@ export default class CommentList extends Component {
     }
 
     return (
-      <div style={{overflowX: 'auto'}}>
+      <div style={{ overflowX: 'auto' }}>
         {isLoading ?
           (
-            <div style={{textAlign: 'center', color: '#ccc', fontSize: 14}}>
-              评论加载中 <i className="fa fa-spinner fa-spin fa-fw"/>
+            <div style={{ textAlign: 'center', color: '#ccc', fontSize: 14 }}>
+              评论加载中……
             </div>
           ) : (
             commentLists.length ? (<ul>
@@ -46,15 +46,15 @@ export default class CommentList extends Component {
                 return (
                   <li key={discuss.comment.id}>
                     <Comment comment={discuss.comment}
-                             children={discuss.children}
-                             isPrimary={discuss.isPrimary}
-                             author={discuss.author}/>
+                      children={discuss.children}
+                      isPrimary={discuss.isPrimary}
+                      author={discuss.author} />
                   </li>
                 )
               })}
             </ul>) : (
-              <div style={{textAlign: 'center', color: '#ccc', fontSize: 14}}>
-                还没有评论呢
+                <div style={{ textAlign: 'center', color: '#ccc', fontSize: 14 }}>
+                  还没有评论呢
               </div>)
           )}
       </div>

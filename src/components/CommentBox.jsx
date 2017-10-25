@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Notification from './Notification'
 
 const styles = {
@@ -61,9 +61,9 @@ export default class commentBox extends Component {
 
     if (res.code === 0 && res.response.length) {
       const thread = res.response[0].id
-      this.setState({thread})
+      this.setState({ thread })
       const message = localStorage.getItem(thread)
-      if (typeof message === 'string') this.setState({message})
+      if (typeof message === 'string') this.setState({ message })
 
     } else if (typeof res.code === 'number') {
       this.setState({
@@ -92,17 +92,17 @@ export default class commentBox extends Component {
 
     const checkValid = () => {
       let valid = true
-      ;['message', 'authorName', 'authorEmail'].forEach(item => {
-        if (this.state[item] === '') {
-          valid = false
-          this.setState({[item + 'Valid']: false})
-        }
-      })
+        ;['message', 'authorName', 'authorEmail'].forEach(item => {
+          if (this.state[item] === '') {
+            valid = false
+            this.setState({ [item + 'Valid']: false })
+          }
+        })
 
       const email = this.state.authorEmail
       if (!/^[-a-zA-Z0-9.]+@[-a-zA-Z0-9]+\.[-a-zA-Z0-9]+$/.test(email)) {
         valid = false
-        this.setState({authorEmailValid: false})
+        this.setState({ authorEmailValid: false })
       }
       return valid
     }
@@ -111,7 +111,7 @@ export default class commentBox extends Component {
 
     if (!isValid) return false
 
-    this.setState({disabled: true})
+    this.setState({ disabled: true })
 
     localStorage.setItem(this.state.thread.toString(), this.state.message)
 
@@ -134,7 +134,7 @@ export default class commentBox extends Component {
   }
 
   commentMetaToggle = () => {
-    this.setState({showCommentMeta: !this.state.showCommentMeta})
+    this.setState({ showCommentMeta: !this.state.showCommentMeta })
   }
 
   async submit() {
@@ -142,7 +142,7 @@ export default class commentBox extends Component {
     const response = await this.postComment()
     if (!response) return
     const res = await response.json()
-    this.setState({disabled: false})
+    this.setState({ disabled: false })
 
     if (res.code === 0) {
       localStorage.removeItem(this.state.thread)
@@ -156,7 +156,7 @@ export default class commentBox extends Component {
         showNotification: true,
       })
       setTimeout(() => {
-        this.setState({showNotification: false})
+        this.setState({ showNotification: false })
       }, 5000)
     } else if (typeof res.code === 'number') {
       this.setState({
@@ -165,7 +165,7 @@ export default class commentBox extends Component {
         showNotification: true,
       })
       setTimeout(() => {
-        this.setState({showNotification: false})
+        this.setState({ showNotification: false })
       }, 5000)
     }
   }
@@ -195,46 +195,46 @@ export default class commentBox extends Component {
               height: '50px',
               borderRadius: '50%',
               boxShadow: '1px 1px 3px 0.5px #ccc'
-            }}/>
+            }} />
           </div>
           <textarea value={this.state.message}
-                    style={{
-                      position: 'absolute',
-                      top: '0',
-                      left: '70px',
-                      width: 'calc(100% - 70px)',
-                      height: '100px',
-                      boxSizing: 'border-box',
-                      fontSize: '16px',
-                      letterSpacing: '0.7px',
-                      padding: '12px',
-                      color: '#555',
-                      backgroundColor: '#f8f8f8',
-                      outline: 'none',
-                      border: this.state.messageValid ? 'none' : 'border: 1px solid #ff7500',
-                      resize: 'none',
-                      borderRadius: '8px',
-                      overflow: 'auto',
-                      boxShadow: '1px 1px 2px -1px #aaa',
-                    }}
-                    disabled={this.state.disabled}
-                    onChange={e => this.handleChange(e, 'message')}/>
+            style={{
+              position: 'absolute',
+              top: '0',
+              left: '70px',
+              width: 'calc(100% - 70px)',
+              height: '100px',
+              boxSizing: 'border-box',
+              fontSize: '16px',
+              letterSpacing: '0.7px',
+              padding: '12px',
+              color: '#555',
+              backgroundColor: '#f8f8f8',
+              outline: 'none',
+              border: this.state.messageValid ? 'none' : 'border: 1px solid #ff7500',
+              resize: 'none',
+              borderRadius: '8px',
+              overflow: 'auto',
+              boxShadow: '1px 1px 2px -1px #aaa',
+            }}
+            disabled={this.state.disabled}
+            onChange={e => this.handleChange(e, 'message')} />
         </div>
         {this.state.showNotification && (
           <Notification title={this.state.notificationTitle}
-                        body={this.state.notificationBody}
-                        duration={4000}/>
+            body={this.state.notificationBody}
+            duration={4000} />
         )}
         <button style={{
           ...styles.button,
           ...{
             fontSize: '14px',
             marginLeft: 'calc(100% - 46px)',
-            padding: '2px 16px',
+            padding: '2px 8px',
             borderRadius: '4px'
           }
         }} onClick={this.commentMetaToggle}>
-          <i className="fa fa-comment-o" aria-hidden="true"/>
+          评论
         </button>
         <div style={{
           marginLeft: 'calc(100% - 220px)',
@@ -244,26 +244,30 @@ export default class commentBox extends Component {
           height: this.state.showCommentMeta ? 120 : 0
         }}>
           <label style={styles.label}>
-            <span style={styles.span}><i className="fa fa-user-o" aria-hidden="true"/> 昵称 </span>
+            <span style={styles.span}> 昵称 </span>
             <input type="text"
-                   style={{
-                     ...styles.input,
-                     border: this.state.authorNameValid ? '1px solid #ccc' : ' 1px solid #ff7500'
-                   }}
-                   value={this.state.authorName}
-                   disabled={this.state.disabled}
-                   onChange={e => this.handleChange(e, 'authorName')}/>
+              style={{
+                ...styles.input,
+                border: this.state.authorNameValid ? '1px solid #ccc' : ' 1px solid #ff7500'
+              }}
+              value={this.state.authorName}
+              disabled={this.state.disabled}
+              onChange={e => this.handleChange(e, 'authorName')}
+              placeholder="昵称会被公开显示"
+            />
           </label>
           <label style={styles.label}>
-            <span style={styles.span}><i className="fa fa-envelope-o" aria-hidden="true"/> 邮箱 </span>
+            <span style={styles.span}>邮箱 </span>
             <input type="text"
-                   style={{
-                     ...styles.input,
-                     border: this.state.authorEmailValid ? '1px solid #ccc' : ' 1px solid #ff7500'
-                   }}
-                   value={this.state.authorEmail}
-                   disabled={this.state.disabled}
-                   onChange={e => this.handleChange(e, 'authorEmail')}/>
+              style={{
+                ...styles.input,
+                border: this.state.authorEmailValid ? '1px solid #ccc' : ' 1px solid #ff7500'
+              }}
+              value={this.state.authorEmail}
+              disabled={this.state.disabled}
+              onChange={e => this.handleChange(e, 'authorEmail')}
+              placeholder="邮箱不会公开显示"
+            />
           </label>
           <button onClick={() => this.submit()} style={{
             ...styles.button,
@@ -276,7 +280,7 @@ export default class commentBox extends Component {
               border: 'none'
             }
           }}>
-            <i className="fa fa-share" aria-hidden="true"/>
+            发布
           </button>
         </div>
       </div>
