@@ -247,7 +247,9 @@ export default class commentBox extends Component {
                    }}
                    value={this.state.authorName}
                    disabled={this.state.disabled}
-                   onChange={e => this.handleChange(e, 'authorName')}/>
+                   onChange={e => this.handleChange(e, 'authorName')}
+                   placeholder="昵称将会公开显示"
+                   />
           </label>
           <label style={styles.label}>
             <span style={styles.span}><i className="fa fa-envelope-o" aria-hidden="true"/> 邮箱 </span>
@@ -258,7 +260,9 @@ export default class commentBox extends Component {
                    }}
                    value={this.state.authorEmail}
                    disabled={this.state.disabled}
-                   onChange={e => this.handleChange(e, 'authorEmail')}/>
+                   onChange={e => this.handleChange(e, 'authorEmail')}
+                   placeholder="邮箱不会公开显示"
+                   />
           </label>
           <button onClick={() => this.submit()} style={{
             ...styles.button,
