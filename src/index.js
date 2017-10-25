@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import DisqusChecker from './DisqusChecker'
+import './style.css'
 
 const disqusProxy = document.getElementById('disqus_proxy_thread')
 let disqus = document.getElementById('disqus-thread')

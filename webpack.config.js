@@ -1,7 +1,6 @@
 const path = require('path')
 const resolve = p => path.resolve(__dirname, p)
 
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
@@ -20,6 +19,10 @@ module.exports = {
           loader: 'babel-loader',
         },
         exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
       }
     ]
   },
@@ -31,10 +34,6 @@ module.exports = {
     'react-dom': 'ReactDOM'
   },
   plugins: [
-    new CopyWebpackPlugin([
-      {from: './src/avatars', to: resolve('./lib/avatars')},
-      {from: './src/styles', to: resolve('./lib/styles')},
-    ]),
     new UglifyJSPlugin()
   ]
 }
