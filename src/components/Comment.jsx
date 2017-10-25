@@ -7,39 +7,45 @@ const styles = {
   }
 }
 
-const getColor = (key) => {
-  let hash = 0;
-  for (var i = 0; i < key.length; i++) {
-    hash += key.charCodeAt(i);
+const getRandomAvatar = (author) => {
+  if (author.avatar.cache.indexOf('noavatar') === -1) {
+    return author.avatar.cache;
   }
-  return `rgb(${hash % 255}, ${hash % 245}, ${hash % 235})`;
-};
+  const getColor = (key) => {
+    let hash = 0;
+    for (var i = 0; i < key.length; i++) {
+      hash += key.charCodeAt(i);
+    }
+    return `rgb(${hash % 255}, ${hash % 245}, ${hash % 235})`;
+  };
+  return blockies.create({
+    seed: author.name,
+    color: getColor(author.name + 'color'),
+    bgcolor: getColor(author.name + 'bgcolor'),
+    spotcolor: getColor(author.name + 'spotcolor')
+  }).toDataURL()
+}
 
 export default function Comment(props) {
   return (
-    <div style={{padding: '0 10px'}}>
-      <div style={{display: 'inline-block'}}>
+    <div style={{ padding: '0 10px' }}>
+      <div style={{ display: 'inline-block' }}>
         <img src={
           props.isPrimary
             ? window.disqusProxy.adminAvatar
-            : blockies.create({
-              seed: props.comment.author.name,
-              color: getColor(props.comment.author.name + 'color'),
-              bgcolor: getColor(props.comment.author.name + 'bgcolor'),
-              spotcolor: getColor(props.comment.author.name + 'spotcolor')
-            }).toDataURL()
+            : getRandomAvatar(props.comment.author.name)
         }
-             style={{
-               width: 40,
-               height: 40,
-               borderRadius: '50%',
-               boxShadow: ' 1px 1px 3px 0.5px #ccc'
-             }}
-             alt="avatar"/>
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: '50%',
+            boxShadow: ' 1px 1px 3px 0.5px #ccc'
+          }}
+          alt="avatar" />
       </div>
-      <div style={{margin: '-60px 0 0 60px'}}>
+      <div style={{ margin: '-60px 0 0 60px' }}>
         <p className="comment-header">
-          <span style={{...styles.span, color: '#888', fontSize: 14}}>
+          <span style={{ ...styles.span, color: '#888', fontSize: 14 }}>
             {props.comment.author.name}
           </span>
           {props.isPrimary && (
@@ -57,13 +63,13 @@ export default function Comment(props) {
             </span>
           )}
           {props.replyTo && (
-            <span style={{...styles.span, color: '#888', fontSize: 14}}>
+            <span style={{ ...styles.span, color: '#888', fontSize: 14 }}>
               <i className="fa fa-share"
-                 style={{
-                   color: '#42b983',
-                   display: 'inline-block',
-                   marginRight: 10
-                 }}/>
+                style={{
+                  color: '#42b983',
+                  display: 'inline-block',
+                  marginRight: 10
+                }} />
               {props.replyTo}
             </span>)}
           <span style={{
@@ -78,8 +84,8 @@ export default function Comment(props) {
           </span>
         </p>
         <p className="comment-body"
-           style={{fontSize: 14, color: '#34495e'}}
-           dangerouslySetInnerHTML={{__html: props.comment.message}}>
+          style={{ fontSize: 14, color: '#34495e' }}
+          dangerouslySetInnerHTML={{ __html: props.comment.message }}>
         </p>
       </div>
       {props.children && props.children.length > 0 && (
@@ -88,10 +94,10 @@ export default function Comment(props) {
             return (
               <li key={discuss.comment.id}>
                 <Comment comment={discuss.comment}
-                         author={discuss.author}
-                         isPrimary={discuss.isPrimary}
-                         replyTo={props.author}
-                         children={discuss.children}/>
+                  author={discuss.author}
+                  isPrimary={discuss.isPrimary}
+                  replyTo={props.author}
+                  children={discuss.children} />
               </li>
             )
           })}
