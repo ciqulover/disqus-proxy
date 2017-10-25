@@ -15,6 +15,7 @@ hexo.extend.filter.register('after_render:html', function (str) {
       <script src="//cdn.bootcss.com/react-dom/16.0.0/umd/react-dom.production.min.js"></script>
       <script src="//cdn.bootcss.com/babel-polyfill/7.0.0-beta.2/polyfill.min.js"></script>
       <script src="//cdn.bootcss.com/fetch/2.0.3/fetch.min.js"></script>
+      <script src="//cdn.jsdelivr.net/npm/blockies-identicon@0.1.0/blockies.min.js"></script>
       <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
       `
     // hexo-disqus-proxy-primary主脚本
@@ -47,12 +48,6 @@ hexo.extend.generator.register('assets', function (locals) {
       return fs.createReadStream('node_modules/hexo-disqus-proxy/lib/avatars/admin-avatar.jpg')
     }
   })
-  if (!config.default_avatar) asset.push({
-    path: 'avatars/default-avatar.png',
-    data: function () {
-      return fs.createReadStream('node_modules/hexo-disqus-proxy/lib/avatars/default-avatar.png')
-    }
-  })
   return asset
 })
 
@@ -69,7 +64,6 @@ hexo.extend.filter.register('template_locals', function (locals) {
           username: '${config.username}',
           server: '${config.host}',
           port: ${config.port},
-          defaultAvatar: '${config.default_avatar ? config.default_avatar : "/avatars/default-avatar.png"}',
           adminAvatar: '${config.admin_avatar ? config.admin_avatar : "/avatars/admin-avatar.jpg"}',
           identifier: '${locals.page.path}',
         };
