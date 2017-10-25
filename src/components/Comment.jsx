@@ -59,9 +59,7 @@ export default function Comment(props) {
             fontSize: 12,
             fontFamily: "'calligraffittiregular', sans-serif"
           }}>
-            {window.moment(props.comment.createdAt)
-              .utcOffset(-8)
-              .format('YYYY/MM/DD HH : mm')}
+            {new Date(props.comment.createdAt).toLocaleString()}
           </span>
         </p>
         <p className="comment-body"
