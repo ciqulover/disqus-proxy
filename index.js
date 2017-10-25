@@ -74,6 +74,7 @@ hexo.extend.filter.register('template_locals', function (locals) {
       <script>
         window.disqusProxy={
           shortname: '${config.shortname}',
+          username: '${config.username}',
           server: '${config.host}',
           port: ${config.port},
           defaultAvatar: '${config.default_avatar ? config.default_avatar : "/avatars/default-avatar.png"}',
