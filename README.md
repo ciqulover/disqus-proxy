@@ -28,7 +28,6 @@ disqus_proxy:
   host: disqus-proxy.ycwalker.com
   port: 443
   admin_avatar: /avatars/admin-avatar.jpg
-  default_avatar: /avatars/default-avatar.png
 ```
 其中：
 * `shortname` 是你的website的 shortname 名称 比如在你的disqus安装代码中 有这样一句脚本：
@@ -36,7 +35,7 @@ disqus_proxy:
          那么你的disqus 的shortname 就是 test-eo9kkdlcze
 * `host`是你启用disqus代理的VPS的域名
 * `port`是VPS服务器启用disqus代理的端口，需要与之后设置的后端一致
-* `default_avatar`和`admin_avatar`分别是默认头像和管理员头像的路径。例如在`source`目录下建立`avatars`目录，放入两个头像，在这里设置成绝对路径。如果不设置，则为默认头像。
+* `admin_avatar`是管理员头像的路径。例如在`source`目录下建立`avatars`目录，放入头像，在这里设置成绝对路径。如果不设置，则为默认头像。
 
 #### 关键的一步
 
@@ -77,7 +76,7 @@ disqus_proxy:
 docker run -d --name disqus-proxy -p 5509:port \
 -e DISQUS_API_SECRECT=your_serect \
 -e DISQUS_SHORT_NAME=your_short_name \
-ycwalker/hexo-disqus-proxy:1.0.6 
+ycwalker/hexo-disqus-proxy:1.0.6
 ````
 
 
@@ -90,7 +89,7 @@ server {
     server_name disqus.domain.com;
     ssl_certificate /etc/ssl/startssl/1_disqus.domain.com_bundle.crt;
     ssl_certificate_key /etc/ssl/startssl/2_disqus.domain.com.key;
-    
+
     location / {
         proxy_set_header  X-Real-IP  $remote_addr;
         proxy_pass http://host:port$request_uri;
@@ -110,7 +109,7 @@ server {
 ```
 git clone https://github.com/ciqulover/disqus-proxy
 ```
-#### 安装依赖 
+#### 安装依赖
 只需要安装后端的依赖
 ```
 npm i --production
@@ -123,23 +122,23 @@ yarn install --production
 module.exports = {
   // 服务端端口，需要与disqus-proxy前端设置一致
     port: 5509,
-  
+
     // 你的diqus secret key
     api_secret: 'your secret key',
-  
+
     // 你的website的 shortname 名称 比如在你的disqus安装代码中 有这样一句脚本：
     // s.src = 'https://test-eo9kkdlcze.disqus.com/embed.js';
     // 那么你的disqus 的shortname 就是 test-eo9kkdlcze
     shortname: 'ciqu',
-  
+
     // 服务端socks5代理转发，便于在本地测试，生产环境通常为null
     // socks5Proxy: {
     //   host: 'localhost',
     //   port: 1086
     // },
-  
+
     socks5Proxy: null,
-  
+
     // 日志输出位置,输出到文件或控制台 'file' | 'console'
     log: 'console'
 }

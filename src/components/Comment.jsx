@@ -7,6 +7,14 @@ const styles = {
   }
 }
 
+const getColor = (key) => {
+  let hash = 0;
+  for (var i = 0; i < key.length; i++) {
+    hash += key.charCodeAt(i);
+  }
+  return `rgb(${hash % 255}, ${hash % 245}, ${hash % 235})`;
+};
+
 export default function Comment(props) {
   return (
     <div style={{padding: '0 10px'}}>
@@ -14,7 +22,12 @@ export default function Comment(props) {
         <img src={
           props.isPrimary
             ? window.disqusProxy.adminAvatar
-            : window.disqusProxy.defaultAvatar
+            : blockies.create({
+              seed: props.comment.author.name,
+              color: getColor(props.comment.author.name + 'color'),
+              bgcolor: getColor(props.comment.author.name + 'bgcolor'),
+              spotcolor: getColor(props.comment.author.name + 'spotcolor')
+            }).toDataURL()
         }
              style={{
                width: 40,
