@@ -1,6 +1,6 @@
 {
   "name": "hexo-disqus-proxy",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "main": "index",
   "dependencies": {
     "hexo-fs": "^0.2.2",
@@ -20,7 +20,6 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "classnames": "^2.2.5",
-    "copy-webpack-plugin": "^4.1.1",
     "css-loader": "^0.28.7",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -32,6 +31,7 @@
   },
   "scripts": {
     "build": "webpack",
+    "dev": "webpack-dev-server",
     "server": "node server/index.js",
     "pm2server": "pm2 server/index.js"
   },

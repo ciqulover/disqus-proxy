@@ -33,8 +33,7 @@ hexo.extend.filter.register('after_render:html', function (str) {
 })
 
 hexo.extend.generator.register('assets', function (locals) {
-  const config = hexo.config.disqus_proxy
-  const asset = [
+  return [
     {
       path: 'scripts/hexo-disqus-proxy-primary.js',
       data: function () {
@@ -42,13 +41,6 @@ hexo.extend.generator.register('assets', function (locals) {
       }
     }
   ]
-  if (!config.admin_avatar) asset.push({
-    path: 'avatars/admin-avatar.jpg',
-    data: function () {
-      return fs.createReadStream('node_modules/hexo-disqus-proxy/lib/avatars/admin-avatar.jpg')
-    }
-  })
-  return asset
 })
 
 hexo.extend.filter.register('template_locals', function (locals) {

@@ -6,8 +6,8 @@ const bodyParser = require('koa-bodyparser')
 const log4js = require('log4js')
 const logger = log4js.getLogger('disqus-proxy')
 const cors = require('kcors')
-const config = require('./config')
-// const config = require('./my-config')
+// const config = require('./config')
+const config = require('./my-config')
 
 if (config.log === 'file') {
   log4js.configure({

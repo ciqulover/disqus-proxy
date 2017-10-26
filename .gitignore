@@ -10,6 +10,7 @@ my-config.js
 # testing
 /coverage
 
+index.html
 
 # misc
 .DS_Store

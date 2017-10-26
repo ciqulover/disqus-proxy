@@ -1,7 +1,6 @@
 const path = require('path')
 const resolve = p => path.resolve(__dirname, p)
 
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
@@ -35,9 +34,6 @@ module.exports = {
     'react-dom': 'ReactDOM'
   },
   plugins: [
-    new CopyWebpackPlugin([
-      {from: './src/avatars', to: resolve('./lib/avatars')}
-    ]),
     new UglifyJSPlugin()
   ]
 }

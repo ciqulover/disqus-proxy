@@ -4,7 +4,7 @@ import DisqusChecker from './DisqusChecker'
 import './style.css'
 
 const disqusProxy = document.getElementById('disqus_proxy_thread')
-let disqus = document.getElementById('disqus-thread')
+let disqus = document.getElementById('disqus_thread')
 
 if (disqusProxy && !disqus) {
   disqus = document.createElement('div')
