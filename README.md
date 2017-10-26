@@ -120,7 +120,7 @@ pm2 start index.js
 
 #### Done !
 
-### 使用 docker
+### (可选) 使用 docker
 
 在安装了docker 的机器上，可以很方便得配置后端。
 
