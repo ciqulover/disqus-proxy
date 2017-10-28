@@ -75,7 +75,7 @@ export default function Comment(props) {
             fontSize: 12,
             fontFamily: "'calligraffittiregular', sans-serif"
           }}>
-            {new Date(props.comment.createdAt).toLocaleString()}
+            {(new Date(+new Date(props.comment.createdAt) + 1000 * 60 * 60 * 8)).toLocaleString()}
           </span>
         </p>
         <p className="comment-body"
