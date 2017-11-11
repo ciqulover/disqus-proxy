@@ -244,7 +244,7 @@ export default class commentBox extends Component {
           height: this.state.showCommentMeta ? 120 : 0
         }}>
           <label style={styles.label}>
-            <span style={styles.span}><i className="fa fa-user-o" aria-hidden="true"/> 昵称 </span>
+            <span style={styles.span}><i className="fa fa-user-o" aria-hidden="true"/> 昵称（公开） </span>
             <input type="text"
                    style={{
                      ...styles.input,
@@ -253,11 +253,10 @@ export default class commentBox extends Component {
                    value={this.state.authorName}
                    disabled={this.state.disabled}
                    onChange={e => this.handleChange(e, 'authorName')}
-                   placeholder="昵称将会公开显示"
                    />
           </label>
           <label style={styles.label}>
-            <span style={styles.span}><i className="fa fa-envelope-o" aria-hidden="true"/> 邮箱 </span>
+            <span style={styles.span}><i className="fa fa-envelope-o" aria-hidden="true"/> 邮箱（非公开） </span>
             <input type="text"
                    style={{
                      ...styles.input,
@@ -266,7 +265,6 @@ export default class commentBox extends Component {
                    value={this.state.authorEmail}
                    disabled={this.state.disabled}
                    onChange={e => this.handleChange(e, 'authorEmail')}
-                   placeholder="邮箱不会公开显示"
                    />
           </label>
           <button onClick={() => this.submit()} style={{
