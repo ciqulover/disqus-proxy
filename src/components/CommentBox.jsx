@@ -13,12 +13,10 @@ const styles = {
   label: {
     boxSizing: 'border-box',
     display: 'block',
-    width: '220px',
     margin: '10px 0'
   },
   span: {
     display: 'inline-block',
-    width: '60px',
     fontSize: '12px'
   },
   input: {
@@ -237,7 +235,7 @@ export default class commentBox extends Component {
           <i className="fa fa-comment-o" aria-hidden="true"/>
         </button>
         <div style={{
-          marginLeft: 'calc(100% - 220px)',
+          marginLeft: 'calc(100% - 260px)',
           transition: 'all 0.5s',
           color: '#666',
           overflow: 'hidden',
@@ -248,12 +246,13 @@ export default class commentBox extends Component {
             <input type="text"
                    style={{
                      ...styles.input,
-                     border: this.state.authorNameValid ? '1px solid #ccc' : ' 1px solid #ff7500'
+                     border: this.state.authorNameValid ? '1px solid #ccc' : ' 1px solid #ff7500',
+                     marginLeft: 14
                    }}
                    value={this.state.authorName}
                    disabled={this.state.disabled}
                    onChange={e => this.handleChange(e, 'authorName')}
-                   />
+            />
           </label>
           <label style={styles.label}>
             <span style={styles.span}><i className="fa fa-envelope-o" aria-hidden="true"/> 邮箱（非公开） </span>
@@ -265,7 +264,7 @@ export default class commentBox extends Component {
                    value={this.state.authorEmail}
                    disabled={this.state.disabled}
                    onChange={e => this.handleChange(e, 'authorEmail')}
-                   />
+            />
           </label>
           <button onClick={() => this.submit()} style={{
             ...styles.button,

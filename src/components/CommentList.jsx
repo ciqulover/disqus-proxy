@@ -34,7 +34,7 @@ export default class CommentList extends Component {
     }
 
     return (
-      <div style={{overflowX: 'auto'}}>
+      <div>
         {isLoading ?
           (
             <div style={{textAlign: 'center', color: '#ccc', fontSize: 14}}>
