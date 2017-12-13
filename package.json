@@ -1,39 +1,24 @@
 {
   "name": "hexo-disqus-proxy",
-  "version": "1.2.4",
+  "version": "1.3.4",
   "main": "index",
   "dependencies": {
-    "hexo-fs": "^0.2.2",
-    "kcors": "2",
-    "koa": "^2.2.0",
-    "koa-bodyparser": "^4.2.0",
-    "koa-router": "^7.2.0",
-    "log4js": "^1.1.1",
-    "request": "^2.81.0",
-    "request-promise-native": "^1.0.4",
-    "socks5-https-client": "^1.2.0"
+    "disqus-proxy-core": "^0.1.0",
+    "hexo-fs": "^0.2.2"
   },
-  "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "classnames": "^2.2.5",
-    "css-loader": "^0.28.7",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
-    "style-loader": "^0.19.0",
-    "uglifyjs-webpack-plugin": "^1.0.0-beta.3",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.9.1",
-    "webpack-merge": "^4.1.0"
+  "keywords": [
+    "diqus proxy",
+    "disqus",
+    "hexo"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ciqulover/disqus-proxy"
   },
-  "scripts": {
-    "build": "webpack",
-    "dev": "webpack-dev-server",
-    "server": "node server/index.js",
-    "pm2server": "pm2 server/index.js"
+  "author": {
+    "name": "ciqulover",
+    "email": "ciqulover@gmail.com",
+    "url": "ycwalker.com"
   },
   "license": "MIT"
 }
