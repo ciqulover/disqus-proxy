@@ -1,9 +1,9 @@
 {
   "name": "hexo-disqus-proxy",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "main": "index",
   "dependencies": {
-    "disqus-proxy-core": "^1.0.0",
+    "disqus-proxy-core": "^1.0.2",
     "hexo-fs": "^1.0.0"
   },
   "keywords": [
